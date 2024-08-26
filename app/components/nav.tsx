@@ -2,7 +2,6 @@
 
 import { useState, useCallback } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { ChevronDown } from 'lucide-react'
 import classNames from 'classnames'
 
 const menuItems = [
@@ -69,18 +68,20 @@ export function Navbar() {
               className="overflow-hidden"
             >
               <div className="h-px bg-gray-200 mx-4" aria-hidden="true"></div>
-              <ul id={`submenu-${activeMenu}`} className="grid gap-2 px-4 py-4 bg-white/50 backdrop-blur-md rounded-b-lg">
-                {menuItems.find(item => item.name === activeMenu)?.submenu.map((subItem) => (
-                  <li key={subItem}>
-                    <a
-                      href="#"
-                      className={`block px-4 py-2 rounded-md transition-colors duration-200 focus:outline-none focus:ring-2 text-gray-700 ${menuItems.find(item => item.name === activeMenu)?.color.hover} hover:text-white`}
-                    >
-                      {subItem}
-                    </a>
-                  </li>
-                ))}
-              </ul>
+              <div className="max-h-[80vh] overflow-y-auto">
+                <ul id={`submenu-${activeMenu}`} className="grid gap-2 px-4 py-4 bg-white/50 backdrop-blur-md rounded-b-lg">
+                  {menuItems.find(item => item.name === activeMenu)?.submenu.map((subItem) => (
+                    <li key={subItem}>
+                      <a
+                        href="#"
+                        className={`block px-4 py-2 rounded-md transition-colors duration-200 focus:outline-none focus:ring-2 text-gray-700 ${menuItems.find(item => item.name === activeMenu)?.color.hover} hover:text-white`}
+                      >
+                        {subItem}
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              </div>
             </motion.div>
           )}
         </AnimatePresence>
