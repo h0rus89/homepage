@@ -38,7 +38,7 @@ export function Navbar() {
   }, [activeMenu])
 
   return (
-    <div className="fixed top-0 left-1/2 transform -translate-x-1/2 z-50 pt-4 pb-12">
+    <div className="fixed top-0 left-1/2 transform -translate-x-1/2 z-50 pl-4 pr-4 pt-4 pb-12">
       <nav className="relative backdrop-blur-md bg-white/70 rounded-lg shadow-lg border border-gray-200 inline-block overflow-hidden">
         <div className="flex items-center justify-center p-4">
           <ul className="flex items-center space-x-8">

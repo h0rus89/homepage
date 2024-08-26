@@ -41,7 +41,7 @@ export function Navbar() {
     <div className="fixed top-0 left-1/2 transform -translate-x-1/2 z-50 pt-4 pb-12">
       <nav className="relative backdrop-blur-md bg-white/70 rounded-lg shadow-lg border border-gray-200 inline-block overflow-hidden">
         <div className="flex items-center justify-center p-4">
-          <ul className="flex items-center space-x-8">
+          <ul className="flex items-center space-x-4">
             {menuItems.map((item) => (
               <li key={item.name} className="relative">
                 <button
@@ -52,9 +52,7 @@ export function Navbar() {
                 >
                   <span className="flex items-center">
                     {item.name}
-                    <ChevronDown className={`ml-1 h-4 w-4 transition-transform duration-200 ${
-                      activeMenu === item.name ? 'rotate-180' : ''
-                    }`} />
+                    
                   </span>
                 </button>
               </li>
