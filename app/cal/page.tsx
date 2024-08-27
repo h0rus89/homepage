@@ -3,7 +3,7 @@ import fetch from 'node-fetch';
 
 async function fetchEvents() {
   const icsUrl = 'https://gas-wadern.de/iserv/public/calendar?key=93c3cb1233d2b766ac86aac74d27585e';
-  const response = await fetch(icsUrl);
+  const response = await fetch(icsUrl, {next: {revalidate: 60 * 60 * 24}});
   const icsData = await response.text();
 
   // Parse the ICS data
