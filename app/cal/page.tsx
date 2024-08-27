@@ -20,7 +20,16 @@ async function fetchEvents() {
     organizer: event.organizer,
   }));
 
-  return events;
+  // Filtere Ereignisse, die älter als heute sind
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+
+  const filteredEvents = events.filter((event) => {
+    const eventStart = new Date(event.start);
+    return eventStart >= today;
+  });
+
+  return filteredEvents;
 }
 
 export default async function EventsPage() {
