@@ -91,7 +91,6 @@ export function Navbar() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-100 dark:bg-gray-900 transition-colors duration-300">
       <header className="fixed top-0 left-0 right-0 z-50 pt-4">
         <div className="flex justify-center">
           <nav ref={menuRef} className="inline-flex flex-col items-center backdrop-blur-md shadow-lg rounded-lg bg-white/70 dark:bg-gray-800/70 border-gray-200 dark:border-gray-700 transition-colors duration-300">
@@ -155,38 +154,5 @@ export function Navbar() {
           </nav>
         </div>
       </header>
-      <main className="pt-24 max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <h1 className="text-3xl font-bold mb-4 text-gray-900 dark:text-white">Willkommen an unserer Schule</h1>
-        <p className="mb-4 text-gray-700 dark:text-gray-300">
-          Unsere Schule ist ein Ort des Lernens, der Entdeckung und des persönlichen Wachstums. Hier fördern wir nicht nur akademische Exzellenz, sondern auch Kreativität, kritisches Denken und soziale Verantwortung.
-        </p>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <div className="p-4 rounded-lg bg-white dark:bg-gray-800 shadow">
-            <h2 className="text-xl font-semibold mb-2 text-gray-900 dark:text-white">Unsere Gemeinschaft</h2>
-            <p className="text-gray-700 dark:text-gray-300">
-              Wir legen großen Wert auf eine inklusive und unterstützende Gemeinschaft, in der jeder Schüler sein volles Potenzial entfalten kann.
-            </p>
-          </div>
-          <div className="p-4 rounded-lg bg-white dark:bg-gray-800 shadow">
-            <h2 className="text-xl font-semibold mb-2 text-gray-900 dark:text-white">Innovative Lernmethoden</h2>
-            <p className="text-gray-700 dark:text-gray-300">
-              Unsere Lehrkräfte setzen modernste pädagogische Konzepte ein, um ein inspirierendes und effektives Lernumfeld zu schaffen.
-            </p>
-          </div>
-          <div className="p-4 rounded-lg bg-white dark:bg-gray-800 shadow">
-            <h2 className="text-xl font-semibold mb-2 text-gray-900 dark:text-white">Außerschulische Aktivitäten</h2>
-            <p className="text-gray-700 dark:text-gray-300">
-              Von Sportteams bis zu Kunstclubs - wir bieten eine Vielzahl von Möglichkeiten zur persönlichen Entfaltung außerhalb des Klassenzimmers.
-            </p>
-          </div>
-          <div className="p-4 rounded-lg bg-white dark:bg-gray-800 shadow">
-            <h2 className="text-xl font-semibold mb-2 text-gray-900 dark:text-white">Zukunftsorientierte Bildung</h2>
-            <p className="text-gray-700 dark:text-gray-300">
-              Wir bereiten unsere Schüler auf die Herausforderungen der Zukunft vor, indem wir digitale Kompetenzen und globales Denken fördern.
-            </p>
-          </div>
-        </div>
-      </main>
-    </div>
   )
 }
