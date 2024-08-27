@@ -128,7 +128,7 @@ export function Navbar() {
                   <ul 
                     ref={submenuRef}
                     id={`submenu-${activeMenu}`} 
-                    className="flex flex-col gap-2 px-4 py-4 rounded-b-lg max-h-80 overflow-y-auto bg-white/90 dark:bg-gray-800/90 transition-colors duration-300"
+                    className="flex flex-col gap-2 px-4 py-4 rounded-b-lg max-h-[calc(100svh-7rem)] overflow-y-auto bg-white/90 dark:bg-gray-800/90 transition-colors duration-300"
                   >
                     {menuItems.find(item => item.name === activeMenu)?.submenu.map((subItem) => (
                       <li key={subItem}>
@@ -143,7 +143,7 @@ export function Navbar() {
                   </ul>
                   {showScrollIndicator && (
                     <div
-                      className="absolute bottom-0 left-0 right-0 flex justify-center items-center h-8 bg-gradient-to-t from-gray-100 dark:from-gray-800 to-transparent pointer-events-none"
+                      className="absolute bottom-0 left-0 right-0 flex justify-center items-center h-8 bg-gradient-to-t from-gray-200 dark:from-gray-800 to-transparent pointer-events-none"
                       aria-hidden="true"
                     >
                       <ChevronDown className="w-6 h-6 animate-bounce text-gray-600 dark:text-gray-400" />
