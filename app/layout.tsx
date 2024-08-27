@@ -2,7 +2,6 @@ import './global.css';
 import type { Metadata } from 'next';
 import { GeistSans } from 'geist/font/sans';
 import { GeistMono } from 'geist/font/mono';
-// import { Navbar } from './components/nav';
 import { Navbar } from './components/nav';
 import { Analytics } from '@vercel/analytics/react';
 import { SpeedInsights } from '@vercel/speed-insights/next';
@@ -10,16 +9,16 @@ import { SpeedInsights } from '@vercel/speed-insights/next';
 export const metadata: Metadata = {
   metadataBase: new URL('https://leerob.io'),
   title: {
-    default: 'Lee Robinson',
-    template: '%s | Lee Robinson',
+    default: 'Graf-Anton-Schule',
+    template: '%s | Graf-Anton-Schule',
   },
-  description: 'Developer, writer, and creator.',
+  description: 'Gemeinschaftsschule des Landkreises Merzig-Wadern',
   openGraph: {
-    title: 'Lee Robinson',
-    description: 'Developer, writer, and creator.',
+    title: 'Graf-Anton-Schule',
+    description: 'Gemeinschaftsschule des Landkreises Merzig-Wadern',
     url: 'https://leerob.io',
-    siteName: 'Lee Robinson',
-    locale: 'en_US',
+    siteName: 'Graf-Anton-Schule',
+    locale: 'de_DE',
     type: 'website',
   },
   robots: {

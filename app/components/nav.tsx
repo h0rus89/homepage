@@ -68,6 +68,36 @@ export function Navbar() {
     return `${baseClasses} ${activeMenu === itemName ? activeClasses : `${inactiveClasses} hover:${colorClass}`}`
   }
 
+  const submenuVariants = {
+    hidden: { opacity: 0, height: 0 },
+    visible: { 
+      opacity: 1, 
+      height: 'auto',
+      transition: {
+        duration: 0.3
+      }
+    },
+    exit: { 
+      opacity: 0, 
+      height: 0,
+      transition: {
+        duration: 0.3
+      }
+    }
+  }
+
+  const scrollIndicatorVariants = {
+    hidden: { opacity: 0 },
+    visible: { 
+      opacity: 1, 
+      transition: { 
+        duration: 0.2,
+        delay: 0.7 // Delay the appearance of the scroll indicator
+      } 
+    },
+    exit: { opacity: 0, transition: { duration: 0.2 } }
+  }
+
   return (
       <header className="fixed top-0 left-0 right-0 z-50 pt-4">
         <div className="flex justify-center">
@@ -91,10 +121,10 @@ export function Navbar() {
             <AnimatePresence>
               {activeMenu && (
                 <motion.div
-                  initial={{ opacity: 0, height: 0 }}
-                  animate={{ opacity: 1, height: 'auto' }}
-                  exit={{ opacity: 0, height: 0 }}
-                  transition={{ duration: 0.2 }}
+                  variants={submenuVariants}
+                  initial="hidden"
+                  animate="visible"
+                  exit="exit"
                   className="w-full overflow-hidden"
                 >
                   <div className="h-px mx-4 bg-gray-200 dark:bg-gray-700 transition-colors duration-300" aria-hidden="true"></div>
@@ -114,11 +144,20 @@ export function Navbar() {
                       </li>
                     ))}
                   </ul>
-                  {showScrollIndicator && (
-                    <div className="absolute bottom-0 left-0 right-0 flex justify-center items-center h-8 bg-gradient-to-t from-gray-200 dark:from-gray-800 to-transparent pointer-events-none transition-colors duration-300" aria-hidden="true">
-                      <ChevronDown className="w-6 h-6 animate-bounce text-gray-600 dark:text-gray-400" />
-                    </div>
-                  )}
+                  <AnimatePresence>
+                    {showScrollIndicator && (
+                      <motion.div
+                        variants={scrollIndicatorVariants}
+                        initial="hidden"
+                        animate="visible"
+                        exit="exit"
+                        className="absolute bottom-0 left-0 right-0 flex justify-center items-center h-8 bg-gradient-to-t from-gray-200 dark:from-gray-800 to-transparent pointer-events-none transition-colors duration-300"
+                        aria-hidden="true"
+                      >
+                        <ChevronDown className="w-6 h-6 animate-bounce text-gray-600 dark:text-gray-400" />
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
                 </motion.div>
               )}
             </AnimatePresence>
