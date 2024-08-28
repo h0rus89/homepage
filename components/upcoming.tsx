@@ -36,7 +36,7 @@ export function Upcoming({ events }: { events: Event[] }) {
         mode="single"
         selected={date}
         onSelect={setDate}
-        className="rounded-md border"
+        className="rounded-md border bg-white"
         modifiers={{ hasEvents }}
         modifiersStyles={{
           hasEvents: { textDecoration: "underline" }
@@ -47,7 +47,7 @@ export function Upcoming({ events }: { events: Event[] }) {
         <div className="mt-4">
           <ul className="space-y-4 mt-2">
             {selectedEvents.map((event, index) => (
-              <li key={index} className="border p-4 rounded-md">
+              <li key={index} className="border p-4 rounded-md bg-white">
                 <h4 className="font-bold">{event.title}</h4>
                 <p>{event.description}</p>
                 <p>
