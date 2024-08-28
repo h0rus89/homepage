@@ -3,8 +3,6 @@
 import { useState } from "react"
 import { Calendar } from "@/components/ui/calendar"
 import { de } from "date-fns/locale"
-import { format, parseISO } from 'date-fns'
-import { utcToZonedTime } from 'date-fns-tz'
 
 type Event = {
   date: Date;
@@ -65,23 +63,27 @@ export function Upcoming({ events }: { events: Event[] }) {
 }
 
 function formatEventDateRange(start: Date, end: Date): string {
-  const timeZone = 'Europe/Berlin'
-  const zonedStart = utcToZonedTime(start, timeZone)
-  const zonedEnd = utcToZonedTime(end, timeZone)
+  const startIsFullDay = start.getHours() === 0 && start.getMinutes() === 0;
+  const endIsFullDay = end.getHours() === 0 && end.getMinutes() === 0;
+  const isSameDay = start.toDateString() === end.toDateString();
 
-  const startIsFullDay = zonedStart.getHours() === 0 && zonedStart.getMinutes() === 0
-  const endIsFullDay = zonedEnd.getHours() === 0 && zonedEnd.getMinutes() === 0
-  const isSameDay = format(zonedStart, 'yyyy-MM-dd') === format(zonedEnd, 'yyyy-MM-dd')
+  const dateOptions: Intl.DateTimeFormatOptions = { year: 'numeric', month: '2-digit', day: '2-digit', timeZone: 'Europe/Berlin' };
+  const timeOptions: Intl.DateTimeFormatOptions = { hour: '2-digit', minute: '2-digit', timeZone: 'Europe/Berlin' };
 
   if (startIsFullDay && endIsFullDay) {
     if (isSameDay) {
-      return format(zonedStart, 'dd.MM.yyyy', { locale: de })
+      return start.toLocaleDateString('de-DE', dateOptions);
     } else {
-      return `${format(zonedStart, 'dd.MM.yyyy', { locale: de })} - ${format(zonedEnd, 'dd.MM.yyyy', { locale: de })}`
+      return `${start.toLocaleDateString('de-DE', dateOptions)} - ${end.toLocaleDateString('de-DE', dateOptions)}`;
     }
   } else if (isSameDay) {
-    return `${format(zonedStart, 'dd.MM.yyyy, HH:mm', { locale: de })} - ${format(zonedEnd, 'HH:mm', { locale: de })}`
+    const date = start.toLocaleDateString('de-DE', dateOptions);
+    const startTime = start.toLocaleTimeString('de-DE', timeOptions);
+    const endTime = end.toLocaleTimeString('de-DE', timeOptions);
+    return `${date}, ${startTime} - ${endTime}`;
   } else {
-    return `${format(zonedStart, 'dd.MM.yyyy, HH:mm', { locale: de })} - ${format(zonedEnd, 'dd.MM.yyyy, HH:mm', { locale: de })}`
+    const startDateTime = start.toLocaleString('de-DE', {...dateOptions, ...timeOptions});
+    const endDateTime = end.toLocaleString('de-DE', {...dateOptions, ...timeOptions});
+    return `${startDateTime} - ${endDateTime}`;
   }
 }
