@@ -56,23 +56,6 @@ export default async function EventsPage() {
       <div className="flex flex-col items-center justify-center">
         <Upcoming events={formattedEvents} />
       </div>
-      <div className="mt-8">
-        <h2 className="text-xl font-semibold mb-4">Nächste 5 Veranstaltungen</h2>
-        <ul className="space-y-4">
-          {formattedEvents.slice(0, 5).map((event, index) => (
-            <li key={index} className="border p-4 rounded-md bg-white shadow-sm">
-              <h3 className="font-bold">{event.title}</h3>
-              <p className="text-sm text-gray-600">
-                {event.start.toISOString()}
-              </p>
-              {event.description && (
-                <p className="mt-2 text-sm">{event.description}</p>
-              )}
-            </li>
-          ))}
-        </ul>
-
-      </div>
     </div>
   );
 }
