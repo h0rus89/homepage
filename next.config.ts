@@ -1,9 +1,3 @@
-import postgres from 'postgres';
-
-export const sql = postgres(process.env.POSTGRES_URL!, {
-  ssl: 'allow',
-});
-
 const nextConfig = {
   experimental: {
     ppr: true,
@@ -14,22 +8,6 @@ const nextConfig = {
     },
   },
   transpilePackages: ['next-mdx-remote'],
-  async redirects() {
-    if (!process.env.POSTGRES_URL) {
-      return [];
-    }
-
-    let redirects = await sql`
-      SELECT source, destination, permanent
-      FROM redirects;
-    `;
-
-    return redirects.map(({ source, destination, permanent }) => ({
-      source,
-      destination,
-      permanent: !!permanent,
-    }));
-  },
   headers() {
     return [
       {
