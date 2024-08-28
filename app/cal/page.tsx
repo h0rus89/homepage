@@ -1,5 +1,6 @@
 import ical from 'ical';
 import fetch from 'node-fetch';
+import { Upcoming } from '@/components/upcoming';
 
 async function fetchEvents() {
   const icsUrl = 'https://gas-wadern.de/iserv/public/calendar?key=93c3cb1233d2b766ac86aac74d27585e';
@@ -38,24 +39,21 @@ export default async function EventsPage() {
   // Sortiere die Ereignisse nach Startdatum
   const sortedEvents = events.sort((a, b) => new Date(a.start).getTime() - new Date(b.start).getTime());
 
+  // Formatiere die Ereignisse für die Upcoming-Komponente
+  const formattedEvents = sortedEvents.map(event => ({
+    date: new Date(event.start),
+    title: event.summary,
+    description: event.description,
+    start: new Date(event.start),
+    end: new Date(event.end)
+  }));
+
   return (
     <div>
-      <h1 className="text-2xl font-bold">Events</h1>
-      <ul className="space-y-4 mt-8">
-        {sortedEvents.map((event, index) => (
-          <li key={index}>
-            <h2>{event.summary}</h2>
-            <p>{event.description}</p>
-            <p>Location: {event.location}</p>
-            <p>
-              Start: {new Date(event.start).toLocaleString()}
-              <br />
-              End: {new Date(event.end).toLocaleString()}
-            </p>
-          </li>
-        ))}
-      </ul>
-      
+      <h1 className="text-2xl font-bold">Kalender</h1>
+      <div className="flex flex-col items-center justify-center">
+        <Upcoming events={formattedEvents} />
+      </div>
     </div>
   );
 }
