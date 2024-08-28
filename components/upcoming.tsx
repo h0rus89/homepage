@@ -56,9 +56,7 @@ export function Upcoming({ events }: { events: Event[] }) {
                 <h4 className="font-bold">{event.title}</h4>
                 <p>{event.description}</p>
                 <p>{event.start.toISOString()}</p>
-                <p>
-                  {formatEventDateRange(event.start, event.end)}
-                </p>
+                <p>{event.end.toISOString()}</p>
               </li>
             ))}
           </ul>
@@ -66,30 +64,4 @@ export function Upcoming({ events }: { events: Event[] }) {
       )}
     </div>
   )
-}
-
-function formatEventDateRange(start: Date, end: Date): string {
-  const startIsFullDay = start.getHours() === 0 && start.getMinutes() === 0;
-  const endIsFullDay = end.getHours() === 0 && end.getMinutes() === 0;
-  const isSameDay = start.toDateString() === end.toDateString();
-
-  const dateOptions: Intl.DateTimeFormatOptions = { year: 'numeric', month: '2-digit', day: '2-digit', timeZone: 'Europe/Berlin' };
-  const timeOptions: Intl.DateTimeFormatOptions = { hour: '2-digit', minute: '2-digit', timeZone: 'Europe/Berlin' };
-
-  if (startIsFullDay && endIsFullDay) {
-    if (isSameDay) {
-      return start.toLocaleDateString('de-DE', dateOptions);
-    } else {
-      return `${start.toLocaleDateString('de-DE', dateOptions)} - ${end.toLocaleDateString('de-DE', dateOptions)}`;
-    }
-  } else if (isSameDay) {
-    const date = start.toLocaleDateString('de-DE', dateOptions);
-    const startTime = start.toLocaleTimeString('de-DE', timeOptions);
-    const endTime = end.toLocaleTimeString('de-DE', timeOptions);
-    return `${date}, ${startTime} - ${endTime}`;
-  } else {
-    const startDateTime = start.toLocaleString('de-DE', {...dateOptions, ...timeOptions});
-    const endDateTime = end.toLocaleString('de-DE', {...dateOptions, ...timeOptions});
-    return `${startDateTime} - ${endDateTime}`;
-  }
 }
