@@ -55,6 +55,7 @@ export function Upcoming({ events }: { events: Event[] }) {
               <li key={index} className="border p-4 rounded-md bg-white">
                 <h4 className="font-bold">{event.title}</h4>
                 <p>{event.description}</p>
+                <p>{event.start.toString()}</p>
                 <p>
                   {formatEventDateRange(event.start, event.end)}
                 </p>
