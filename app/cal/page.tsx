@@ -63,14 +63,7 @@ export default async function EventsPage() {
             <li key={index} className="border p-4 rounded-md bg-white shadow-sm">
               <h3 className="font-bold">{event.title}</h3>
               <p className="text-sm text-gray-600">
-                {event.start.toLocaleString('de-DE', {
-                  year: 'numeric',
-                  month: '2-digit',
-                  day: '2-digit',
-                  hour: '2-digit',
-                  minute: '2-digit',
-                  timeZone: 'Europe/Berlin'
-                })}
+                {event.start.toISOString()}
               </p>
               {event.description && (
                 <p className="mt-2 text-sm">{event.description}</p>
@@ -78,6 +71,7 @@ export default async function EventsPage() {
             </li>
           ))}
         </ul>
+
       </div>
     </div>
   );
