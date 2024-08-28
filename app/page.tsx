@@ -7,6 +7,9 @@ export default function Page() {
       <p className="prose prose-neutral dark:prose-invert">
         hier gehts zum <Link href="/blog">Blog</Link>
       </p>
+      <p className="prose prose-neutral dark:prose-invert">
+        hier gehts zum <Link href="/cal">Kalender</Link>
+      </p>
       
     </section>
   );
