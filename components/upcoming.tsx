@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useEffect } from "react"
+import { useState } from "react"
 import { Calendar } from "@/components/ui/calendar"
 import { de } from "date-fns/locale"
 
@@ -14,11 +14,6 @@ type Event = {
 
 export function Upcoming({ events }: { events: Event[] }) {
   const [date, setDate] = useState<Date | undefined>(new Date())
-
-
-  useEffect(() => {
-    console.log("Alle Veranstaltungen:", events);
-  }, [events]);
 
   const selectedEvents = events.filter(
     event => date && (
@@ -62,6 +57,22 @@ export function Upcoming({ events }: { events: Event[] }) {
           </ul>
         </div>
       )}
+      <div className="mt-8">
+        <h2 className="text-xl font-semibold mb-4">Client-Veranstaltungen</h2>
+        <ul className="space-y-4">
+          {events.slice(0, 5).map((event, index) => (
+            <li key={index} className="border p-4 rounded-md bg-white shadow-sm">
+              <h3 className="font-bold text-lg">{event.title}</h3>
+              <p className="text-sm text-gray-500 mt-2">
+                Start: {event.start.toLocaleString('de-DE', { dateStyle: 'full', timeStyle: 'short' })}
+              </p>
+              <p className="text-sm text-gray-500">
+                Ende: {event.end.toLocaleString('de-DE', { dateStyle: 'full', timeStyle: 'short' })}
+              </p>
+            </li>
+          ))}
+        </ul>
+      </div>
     </div>
   )
 }

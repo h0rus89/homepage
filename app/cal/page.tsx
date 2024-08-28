@@ -54,9 +54,9 @@ export default async function EventsPage() {
         <Upcoming events={formattedEvents} />
       </div>
       <div className="mt-8">
-        <h2 className="text-xl font-semibold mb-4">Alle Veranstaltungen</h2>
+        <h2 className="text-xl font-semibold mb-4">Server-Veranstaltungen</h2>
         <ul className="space-y-4">
-          {formattedEvents.map((event, index) => (
+          {formattedEvents.slice(0, 5).map((event, index) => (
             <li key={index} className="border p-4 rounded-md bg-white shadow-sm">
               <h3 className="font-bold text-lg">{event.title}</h3>
               <p className="text-sm text-gray-500 mt-2">
