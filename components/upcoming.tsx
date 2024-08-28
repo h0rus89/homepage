@@ -15,6 +15,11 @@ type Event = {
 export function Upcoming({ events }: { events: Event[] }) {
   const [date, setDate] = useState<Date | undefined>(new Date())
 
+
+  useEffect(() => {
+    console.log("Alle Veranstaltungen:", events);
+  }, [events]);
+
   const selectedEvents = events.filter(
     event => date && (
       (event.start <= date && event.end >= date) ||
@@ -29,7 +34,6 @@ export function Upcoming({ events }: { events: Event[] }) {
       event.date.toDateString() === day.toDateString()
     )
   }
-  console.log(events)
 
   return (
     <div>
