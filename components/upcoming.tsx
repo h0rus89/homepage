@@ -55,8 +55,8 @@ export function Upcoming({ events }: { events: Event[] }) {
               <li key={index} className="border p-4 rounded-md bg-white">
                 <h4 className="font-bold">{event.title}</h4>
                 <p>{event.description}</p>
-                <p>{event.start.toISOString()}</p>
-                <p>{event.end.toISOString()}</p>
+                <p>{event.start.toLocaleString('de-DE', { dateStyle: 'full', timeStyle: 'short' })}</p>
+                <p>{event.end.toLocaleString('de-DE', { dateStyle: 'full', timeStyle: 'short' })}</p>
               </li>
             ))}
           </ul>
