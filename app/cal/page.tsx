@@ -35,11 +35,14 @@ async function fetchEvents() {
 export default async function EventsPage() {
   const events = await fetchEvents();
 
+  // Sortiere die Ereignisse nach Startdatum
+  const sortedEvents = events.sort((a, b) => new Date(a.start).getTime() - new Date(b.start).getTime());
+
   return (
     <div>
       <h1 className="text-2xl font-bold">Events</h1>
       <ul className="space-y-4 mt-8">
-        {events.map((event, index) => (
+        {sortedEvents.map((event, index) => (
           <li key={index}>
             <h2>{event.summary}</h2>
             <p>{event.description}</p>
