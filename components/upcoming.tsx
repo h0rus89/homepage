@@ -29,6 +29,7 @@ export function Upcoming({ events }: { events: Event[] }) {
       event.date.toDateString() === day.toDateString()
     )
   }
+  console.log(events)
 
   return (
     <div>
