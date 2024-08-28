@@ -36,11 +36,8 @@ async function fetchEvents() {
 export default async function EventsPage() {
   const events = await fetchEvents();
 
-  // Sortiere die Ereignisse nach Startdatum
-  const sortedEvents = events.sort((a, b) => new Date(a.start).getTime() - new Date(b.start).getTime());
-
   // Formatiere die Ereignisse für die Upcoming-Komponente
-  const formattedEvents = sortedEvents.map(event => ({
+  const formattedEvents = events.map(event => ({
     date: new Date(event.start),
     title: event.summary,
     description: event.description,
@@ -55,6 +52,22 @@ export default async function EventsPage() {
       <h1 className="text-2xl font-bold">Kalender</h1>
       <div className="flex flex-col items-center justify-center">
         <Upcoming events={formattedEvents} />
+      </div>
+      <div className="mt-8">
+        <h2 className="text-xl font-semibold mb-4">Alle Veranstaltungen</h2>
+        <ul className="space-y-4">
+          {formattedEvents.map((event, index) => (
+            <li key={index} className="border p-4 rounded-md bg-white shadow-sm">
+              <h3 className="font-bold text-lg">{event.title}</h3>
+              <p className="text-sm text-gray-500 mt-2">
+                Start: {event.start.toLocaleString('de-DE', { dateStyle: 'full', timeStyle: 'short' })}
+              </p>
+              <p className="text-sm text-gray-500">
+                Ende: {event.end.toLocaleString('de-DE', { dateStyle: 'full', timeStyle: 'short' })}
+              </p>
+            </li>
+          ))}
+        </ul>
       </div>
     </div>
   );
