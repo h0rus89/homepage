@@ -48,6 +48,8 @@ export default async function EventsPage() {
     end: new Date(event.end)
   }));
 
+  console.log(formattedEvents);
+  
   return (
     <div>
       <h1 className="text-2xl font-bold">Kalender</h1>
