@@ -30,12 +30,12 @@ export function Upcoming({ events }: { events: Event[] }) {
   })
 
   return (
-    <div>
+    <div className="flex flex-col sm:flex-row gap-4 items-start justify-start mt-8">
       <Calendar
         mode="single"
         selected={date}
         onSelect={setDate}
-        className="rounded-md border bg-white"
+        className="rounded-md border bg-white mx-auto sm:mx-0"
         modifiers={{ hasEvents }}
         modifiersClassNames={{
           hasEvents: "underline"
@@ -43,7 +43,7 @@ export function Upcoming({ events }: { events: Event[] }) {
         locale={de}
       />
       {selectedEvents.length > 0 && (
-        <ul className="space-y-4 mt-4">
+        <ul className="space-y-4 flex-grow w-full sm:w-auto">
           {selectedEvents.map((event, index) => (
             <li key={index} className="border p-4 rounded-md bg-white">
               <h4 className="font-bold">{event.title}</h4>
