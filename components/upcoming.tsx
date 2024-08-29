@@ -58,11 +58,11 @@ export function Upcoming({ events }: { events: Event[] }) {
 
 function formatDateTimeRange(start: Date, end: Date): React.ReactNode {
 
-  const isFullDay = differenceInMinutes(end, start) === 24 * 60 && start.getHours() === 0 && end.getHours() === 0;
+  const isFullDay = differenceInMinutes(end, start) === 24 * 60 && start.getHours() === 2 && end.getHours() === 2;
 
   const isSameDay = differenceInDays(end, start) === 0;
 
-  const isMultiDay = differenceInDays(end, start) > 1 && differenceInMilliseconds(end, start) === 0
+  const isMultiDay = differenceInDays(end, start) > 1 && start.getHours() === 2 && end.getHours() === 2;
 
   if (isFullDay) {
     return (
