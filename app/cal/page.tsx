@@ -26,7 +26,7 @@ export default async function EventsPage() {
   return (
     <div>
       <h1 className="text-2xl font-bold">Kalender</h1>
-      <div className="flex flex-col items-center justify-center w-full">
+      <div className="flex flex-col items-center justify-center">
         <Upcoming events={events} />
       </div>
     </div>
