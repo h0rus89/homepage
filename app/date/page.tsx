@@ -1,6 +1,20 @@
 import ical from 'ical';
 import { ClientEvents } from '@/components/client';
 
+interface ICalEvent {
+    uid: string;
+    summary: string;
+    start: Date;
+    end: Date;
+  }
+
+  interface FormattedEvent {
+    uid: string;
+    title: string;
+    start: string;
+    end: string;
+  }
+
 async function getEvents() {
     const icsUrl = 'https://gas-wadern.de/iserv/public/calendar?key=93c3cb1233d2b766ac86aac74d27585e';
     const response = await fetch(icsUrl, {next: {revalidate: 60 * 60 * 24}});
@@ -10,32 +24,42 @@ async function getEvents() {
     const parsedData = ical.parseICS(icsData);
   
     // Extrahiere und formatiere Ereignisse
-    const events = Object.values(parsedData).map((event: any) => ({
-      uid: event.uid,
-      summary: event.summary,
-      description: event.description,
-      location: event.location,
-      start: event.start,
-      end: event.end,
-      organizer: event.organizer,
-    }));
+
+    const events: FormattedEvent[] = Object.values(parsedData)
+      .filter((event): event is ICalEvent => 
+        typeof event === 'object' &&
+        event !== null &&
+        'uid' in event &&
+        'summary' in event &&
+        'start' in event &&
+        'end' in event &&
+        event.start instanceof Date &&
+        event.end instanceof Date
+      )
+      .map((event: ICalEvent) => ({
+        uid: event.uid,
+        title: event.summary,
+        start: event.start.toISOString(),
+        end: event.end.toISOString(),
+      }));
   
     return events.slice(0, 3);
   }
 
-function listEvents(events: any) {
-    return events.map((event: any) => (
-        <ul>
-        <li key={event.uid}>
-            <p>{event.summary}</p>
-            <p>{event.start.toLocaleDateString('de-DE', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' , hour: '2-digit', minute: '2-digit' })}</p>
+function listEvents(events: FormattedEvent[]) {
+  return (
+    <ul>
+      {events.map((event) => (
+        <li className="py-2" key={event.uid}>
+          <p>{event.title}</p>
+          <p>{event.start}</p>
         </li>
-        </ul>
-    ));
+      ))}
+    </ul>
+  );
 }
-  
-export default async function Events() {
 
+export default async function Events() {
     const events = await getEvents();
 
     return(
