@@ -5,9 +5,8 @@ import { Calendar } from "@/components/ui/calendar"
 import { de } from "date-fns/locale"
 
 interface Event {
-  date?: Date;
+  uid: string,
   title: string;
-  description: string;
   start: Date;
   end: Date;
 }
@@ -17,15 +16,11 @@ export function Upcoming({ events }: { events: Event[] }) {
 
   const selectedEvents = events.filter(event => {
     if (!date) return false;
-    return (
-      (event.start <= date && event.end >= date) ||
-      (event.date && event.date.toDateString() === date.toDateString())
-    )
+    return (event.start <= date && event.end >= date)
   })
 
   const hasEvents = (day: Date) => events.some(event => 
-    (event.start <= day && event.end >= day) ||
-    (event.date && event.date.toDateString() === day.toDateString())
+    event.start <= day && event.end >= day
   )
 
   return (
@@ -46,7 +41,6 @@ export function Upcoming({ events }: { events: Event[] }) {
           {selectedEvents.map((event, index) => (
             <li key={index} className="border p-4 rounded-md bg-white">
               <h4 className="font-bold">{event.title}</h4>
-              <p>{event.description}</p>
               <p>{event.start.toLocaleString('de-DE', { dateStyle: 'full', timeStyle: 'short', timeZone: 'UTC' })}</p>
               <p>{event.end.toLocaleString('de-DE', { dateStyle: 'full', timeStyle: 'short', timeZone: 'UTC' })}</p>
             </li>
