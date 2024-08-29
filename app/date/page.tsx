@@ -1,6 +1,7 @@
 import ical from 'ical';
+import { ClientEvents } from '@/components/client';
 
-async function fetchEvents() {
+async function getEvents() {
     const icsUrl = 'https://gas-wadern.de/iserv/public/calendar?key=93c3cb1233d2b766ac86aac74d27585e';
     const response = await fetch(icsUrl, {next: {revalidate: 60 * 60 * 24}});
     const icsData = await response.text();
@@ -19,31 +20,30 @@ async function fetchEvents() {
       organizer: event.organizer,
     }));
   
-    return events[0].start;
+    return events.slice(0, 3);
   }
+
+function listEvents(events: any) {
+    return events.map((event: any) => (
+        <ul>
+        <li key={event.uid}>
+            <p>{event.summary}</p>
+            <p>{event.start.toLocaleDateString('de-DE', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' , hour: '2-digit', minute: '2-digit' })}</p>
+        </li>
+        </ul>
+    ));
+}
   
+export default async function Events() {
 
-function getServerDate() {
-    const dat = fetchEvents();
-    return dat;
-}
-
-function getClientDate(date: Date) {
-    "use client";
-    return date;
-}
-
-export default async function EventsPage() {
+    const events = await getEvents();
 
     return(
         <>
-            <h1>Server</h1>
-            <p>{(await getServerDate()).toISOString()}</p>
-            <p>{(await getServerDate()).toLocaleString('de-DE', { dateStyle: 'full', timeStyle: 'short' })}</p>
-            
-            <h1>Client</h1>
-            <p>{getClientDate(await getServerDate()).toISOString()}</p>
-            <p>{getClientDate(await getServerDate()).toLocaleString('de-DE', { dateStyle: 'full', timeStyle: 'short' })}</p>
+            <h1 className="text-2xl font-bold">Server</h1>
+            {listEvents(events)}
+            <h1 className="text-2xl font-bold mt-4">Client</h1>
+            <ClientEvents events={events} />
         </>
     )
 }

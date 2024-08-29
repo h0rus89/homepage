@@ -3,7 +3,6 @@
 import { useState } from "react"
 import { Calendar } from "@/components/ui/calendar"
 import { de } from "date-fns/locale"
-import { cn } from "@/lib/utils"
 
 interface Event {
   date?: Date;
