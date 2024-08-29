@@ -3,30 +3,34 @@
 import { useState } from "react"
 import { Calendar } from "@/components/ui/calendar"
 import { de } from "date-fns/locale"
-import { isSameDay, endOfDay, startOfDay, differenceInDays, differenceInMinutes, differenceInMilliseconds } from "date-fns"
+import { isSameDay, endOfDay, startOfDay, differenceInDays, differenceInMinutes } from "date-fns"
 
 interface Event {
   uid: string,
   title: string;
-  start: Date;
-  end: Date;
+  start: string; // Geändert zu string für ISO-Format
+  end: string; // Geändert zu string für ISO-Format
 }
 
 export function Upcoming({ events }: { events: Event[] }) {
   const [date, setDate] = useState<Date | undefined>(new Date())
 
   const selectedEvents = events.filter(event => {
-  return (
-    isSameDay(event.start, date!) ||
-    (event.start < startOfDay(date!) && event.end > startOfDay(date!))
-  );
+    const eventStart = new Date(event.start);
+    const eventEnd = new Date(event.end);
+    return (
+      isSameDay(eventStart, date!) ||
+      (eventStart < startOfDay(date!) && eventEnd > startOfDay(date!))
+    );
   });
 
   const hasEvents = (day: Date) => events.some(event => {
-  return (
-    isSameDay(event.start, day) ||
-    (event.start < startOfDay(day) && event.end > endOfDay(day))
-  );
+    const eventStart = new Date(event.start);
+    const eventEnd = new Date(event.end);
+    return (
+      isSameDay(eventStart, day) ||
+      (eventStart < startOfDay(day) && eventEnd > endOfDay(day))
+    );
   })
 
   return (
@@ -56,35 +60,35 @@ export function Upcoming({ events }: { events: Event[] }) {
   )
 }
 
-function formatDateTimeRange(start: Date, end: Date): React.ReactNode {
+function formatDateTimeRange(start: string, end: string): React.ReactNode {
+  const startDate = new Date(start);
+  const endDate = new Date(end);
 
-  const isFullDay = differenceInMinutes(end, start) === 24 * 60 && start.getHours() === 2 && end.getHours() === 2;
+  const isFullDay = differenceInMinutes(endDate, startDate) === 24 * 60 && startDate.getUTCHours() === 22 && endDate.getUTCHours() === 22;
 
-  const isSameDay = differenceInDays(end, start) === 0;
+  const isSameDay = differenceInDays(endDate, startDate) === 0;
 
-  const isMultiDay = differenceInDays(end, start) > 1 && start.getHours() === 2 && end.getHours() === 2;
+  const isMultiDay = differenceInDays(endDate, startDate) > 1 && startDate.getUTCHours() === 22 && endDate.getUTCHours() === 22;
 
   if (isFullDay) {
     return (
-      <p>{start.toLocaleString('de-DE', { dateStyle: 'short', timeZone: 'UTC' })}</p>
+      <p>ganztags</p>
     );
   }
 
   if (isSameDay) {
     return (
-      <p>{start.toLocaleString('de-DE', { dateStyle: 'short', timeStyle: 'short', timeZone: 'UTC' })} - {end.toLocaleTimeString('de-DE', { timeStyle: 'short', timeZone: 'UTC' })}</p>
+      <p>{startDate.toLocaleTimeString('de-DE', { timeStyle: 'short', timeZone: 'Europe/Berlin' })} - {endDate.toLocaleTimeString('de-DE', { timeStyle: 'short', timeZone: 'Europe/Berlin' })}</p>
     );
   }
 
   if (isMultiDay) {
     return (
-      <p>{start.toLocaleDateString('de-DE', { dateStyle: 'short', timeZone: 'UTC' })} - {end.toLocaleDateString('de-DE', { dateStyle: 'short',timeZone: 'UTC' })}</p>
+      <p>{startDate.toLocaleDateString('de-DE', { dateStyle: 'short', timeZone: 'Europe/Berlin' })} - {new Date(endDate.getTime() - 24 * 60 * 60 * 1000).toLocaleDateString('de-DE', { dateStyle: 'short', timeZone: 'Europe/Berlin' })}</p>
     );
   }
 
   return (
-    <>
-      <p>{start.toLocaleString('de-DE', { dateStyle: 'short', timeStyle: 'short', timeZone: 'UTC' })} - {end.toLocaleString('de-DE', { dateStyle: 'short', timeStyle: 'short', timeZone: 'UTC' })}</p>
-    </>
+    <p>{startDate.toLocaleString('de-DE', { dateStyle: 'short', timeStyle: 'short', timeZone: 'Europe/Berlin' })} - {endDate.toLocaleString('de-DE', { dateStyle: 'short', timeStyle: 'short', timeZone: 'Europe/Berlin' })}</p>
   );
 }

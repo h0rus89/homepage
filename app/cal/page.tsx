@@ -13,8 +13,8 @@ async function fetchEvents() {
   const events = Object.values(parsedData).map((event: any) => ({
     uid: event.uid,
     title: event.summary,
-    start: event.start,
-    end: event.end,
+    start: event.start ? event.start.toISOString() : '',
+    end: event.end ? event.end.toISOString() : '',
   }));
 
   return events;
