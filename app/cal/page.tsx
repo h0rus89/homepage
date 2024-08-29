@@ -34,8 +34,6 @@ export default async function EventsPage() {
     start: event.start,
     end: event.end
   }));
-
-  console.log(formattedEvents);
   
   return (
     <div>
@@ -46,7 +44,7 @@ export default async function EventsPage() {
       <div className="mt-8">
         <h2 className="text-xl font-semibold mb-4">Server-Veranstaltungen</h2>
         <ul className="space-y-4">
-          {formattedEvents.slice(0, 5).map((event, index) => (
+          {formattedEvents.slice(0, 3).map((event, index) => (
             <li key={index} className="border p-4 rounded-md bg-white shadow-sm">
               <h3 className="font-bold text-lg">{event.title}</h3>
               <p className="text-sm text-gray-500 mt-2">

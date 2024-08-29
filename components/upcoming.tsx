@@ -3,9 +3,10 @@
 import { useState } from "react"
 import { Calendar } from "@/components/ui/calendar"
 import { de } from "date-fns/locale"
+import { cn } from "@/lib/utils"
 
-type Event = {
-  date: Date;
+interface Event {
+  date?: Date;
   title: string;
   description: string;
   start: Date;
@@ -15,20 +16,18 @@ type Event = {
 export function Upcoming({ events }: { events: Event[] }) {
   const [date, setDate] = useState<Date | undefined>(new Date())
 
-  const selectedEvents = events.filter(
-    event => date && (
+  const selectedEvents = events.filter(event => {
+    if (!date) return false;
+    return (
       (event.start <= date && event.end >= date) ||
-      event.date.toDateString() === date.toDateString()
+      (event.date && event.date.toDateString() === date.toDateString())
     )
-  )
+  })
 
-  // Funktion zum Überprüfen, ob ein Datum Ereignisse hat
-  const hasEvents = (day: Date) => {
-    return events.some(event => 
-      (event.start <= day && event.end >= day) ||
-      event.date.toDateString() === day.toDateString()
-    )
-  }
+  const hasEvents = (day: Date) => events.some(event => 
+    (event.start <= day && event.end >= day) ||
+    (event.date && event.date.toDateString() === day.toDateString())
+  )
 
   return (
     <div>
@@ -38,29 +37,27 @@ export function Upcoming({ events }: { events: Event[] }) {
         onSelect={setDate}
         className="rounded-md border bg-white"
         modifiers={{ hasEvents }}
-        modifiersStyles={{
-          hasEvents: { textDecoration: "underline" }
+        modifiersClassNames={{
+          hasEvents: "underline"
         }}
         locale={de}
       />
       {selectedEvents.length > 0 && (
-        <div className="mt-4">
-          <ul className="space-y-4 mt-2">
-            {selectedEvents.map((event, index) => (
-              <li key={index} className="border p-4 rounded-md bg-white">
-                <h4 className="font-bold">{event.title}</h4>
-                <p>{event.description}</p>
-                <p>{event.start.toLocaleString('de-DE', { dateStyle: 'full', timeStyle: 'short' })}</p>
-                <p>{event.end.toLocaleString('de-DE', { dateStyle: 'full', timeStyle: 'short' })}</p>
-              </li>
-            ))}
-          </ul>
-        </div>
+        <ul className="space-y-4 mt-4">
+          {selectedEvents.map((event, index) => (
+            <li key={index} className="border p-4 rounded-md bg-white">
+              <h4 className="font-bold">{event.title}</h4>
+              <p>{event.description}</p>
+              <p>{event.start.toLocaleString('de-DE', { dateStyle: 'full', timeStyle: 'short' })}</p>
+              <p>{event.end.toLocaleString('de-DE', { dateStyle: 'full', timeStyle: 'short' })}</p>
+            </li>
+          ))}
+        </ul>
       )}
       <div className="mt-8">
         <h2 className="text-xl font-semibold mb-4">Client-Veranstaltungen</h2>
         <ul className="space-y-4">
-          {events.slice(0, 5).map((event, index) => (
+          {events.slice(0, 3).map((event, index) => (
             <li key={index} className="border p-4 rounded-md bg-white shadow-sm">
               <h3 className="font-bold text-lg">{event.title}</h3>
               <p className="text-sm text-gray-500 mt-2">
