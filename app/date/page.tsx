@@ -1,10 +1,10 @@
 function getServerDate() {
-    return new Date();
+    return new Date("2024-08-29T05:02:10.111Z");
 }
 
-function getClientDate() {
+function getClientDate(date: Date) {
     "use client";
-    return new Date();
+    return date;
 }
 
 export default async function EventsPage() {
@@ -16,8 +16,8 @@ export default async function EventsPage() {
             <p>{getServerDate().toLocaleString('de-DE', { dateStyle: 'full', timeStyle: 'short' })}</p>
             
             <h1>Client</h1>
-            <p>{getClientDate().toISOString()}</p>
-            <p>{getClientDate().toLocaleString('de-DE', { dateStyle: 'full', timeStyle: 'short' })}</p>
+            <p>{getClientDate(getServerDate()).toISOString()}</p>
+            <p>{getClientDate(getServerDate()).toLocaleString('de-DE', { dateStyle: 'full', timeStyle: 'short' })}</p>
         </>
     )
 }
