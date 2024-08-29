@@ -1,4 +1,4 @@
-import ical from 'ical';
+import { parseICS } from 'node-ical';
 
 async function fetchEvents() {
   const icsUrl = 'https://gas-wadern.de/iserv/public/calendar?key=93c3cb1233d2b766ac86aac74d27585e';
@@ -6,18 +6,16 @@ async function fetchEvents() {
   const icsData = await response.text();
 
   // Parse the ICS data
-  const parsedData = ical.parseICS(icsData);
-
-  // create object where start and end are dates are iso dates
-  const events = Object.values(parsedData).map((event: any) => {
-    return {
+  const parsedData = await parseICS(icsData);
+  
+  const events = Object.values(parsedData)
+    .filter((event: any) => event.type === 'VEVENT')
+    .map((event: any) => ({
       uid: event.uid,
       title: event.summary,
-      start: new Date(event.start),
-      end: new Date(event.end),
-    }
-  });
-  
+      start: event.start,
+      end: event.end,
+    }));
   
   return events.slice(5, 10);
 }

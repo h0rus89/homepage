@@ -27,6 +27,7 @@
     "lucide-react": "^0.436.0",
     "next": "^15.0.0-canary.120",
     "next-mdx-remote": "^5.0.0",
+    "node-ical": "^0.18.0",
     "postcss": "^8.4.41",
     "postgres": "^3.4.4",
     "react": "^19.0.0-rc-2d2cc042-20240809",
