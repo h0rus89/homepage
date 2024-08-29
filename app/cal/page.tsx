@@ -1,5 +1,4 @@
 import ical from 'ical';
-import fetch from 'node-fetch';
 import { Upcoming } from '@/components/upcoming';
 
 async function fetchEvents() {
@@ -21,16 +20,7 @@ async function fetchEvents() {
     organizer: event.organizer,
   }));
 
-  // Filtere Ereignisse, die älter als heute sind
-  const today = new Date();
-  today.setHours(0, 0, 0, 0);
-
-  const filteredEvents = events.filter((event) => {
-    const eventStart = new Date(event.start);
-    return eventStart >= today;
-  });
-
-  return filteredEvents;
+  return events;
 }
 
 export default async function EventsPage() {
@@ -38,11 +28,11 @@ export default async function EventsPage() {
 
   // Formatiere die Ereignisse für die Upcoming-Komponente
   const formattedEvents = events.map(event => ({
-    date: new Date(event.start),
+    date: event.start,
     title: event.summary,
     description: event.description,
-    start: new Date(event.start),
-    end: new Date(event.end)
+    start: event.start,
+    end: event.end
   }));
 
   console.log(formattedEvents);
