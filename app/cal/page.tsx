@@ -48,10 +48,10 @@ export default async function EventsPage() {
             <li key={index} className="border p-4 rounded-md bg-white shadow-sm">
               <h3 className="font-bold text-lg">{event.title}</h3>
               <p className="text-sm text-gray-500 mt-2">
-                Start: {event.start.toLocaleString('de-DE', { dateStyle: 'full', timeStyle: 'short' })}
+                Start: {event.start.toLocaleString('de-DE', { dateStyle: 'full', timeStyle: 'short' , timeZone: 'UTC'})}
               </p>
               <p className="text-sm text-gray-500">
-                Ende: {event.end.toLocaleString('de-DE', { dateStyle: 'full', timeStyle: 'short' })}
+                Ende: {event.end.toLocaleString('de-DE', { dateStyle: 'full', timeStyle: 'short', timeZone: 'UTC'})}
               </p>
             </li>
           ))}

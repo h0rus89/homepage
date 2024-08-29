@@ -22,6 +22,7 @@ async function getEvents() {
   
     // Parse the ICS data
     const parsedData = ical.parseICS(icsData);
+    console.log(parsedData);
   
     // Extrahiere und formatiere Ereignisse
 

@@ -47,8 +47,8 @@ export function Upcoming({ events }: { events: Event[] }) {
             <li key={index} className="border p-4 rounded-md bg-white">
               <h4 className="font-bold">{event.title}</h4>
               <p>{event.description}</p>
-              <p>{event.start.toLocaleString('de-DE', { dateStyle: 'full', timeStyle: 'short' })}</p>
-              <p>{event.end.toLocaleString('de-DE', { dateStyle: 'full', timeStyle: 'short' })}</p>
+              <p>{event.start.toLocaleString('de-DE', { dateStyle: 'full', timeStyle: 'short', timeZone: 'UTC' })}</p>
+              <p>{event.end.toLocaleString('de-DE', { dateStyle: 'full', timeStyle: 'short', timeZone: 'UTC' })}</p>
             </li>
           ))}
         </ul>
@@ -60,10 +60,10 @@ export function Upcoming({ events }: { events: Event[] }) {
             <li key={index} className="border p-4 rounded-md bg-white shadow-sm">
               <h3 className="font-bold text-lg">{event.title}</h3>
               <p className="text-sm text-gray-500 mt-2">
-                Start: {event.start.toLocaleString('de-DE', { dateStyle: 'full', timeStyle: 'short' })}
+                Start: {event.start.toLocaleString('de-DE', { dateStyle: 'full', timeStyle: 'short', timeZone: 'UTC' })}
               </p>
               <p className="text-sm text-gray-500">
-                Ende: {event.end.toLocaleString('de-DE', { dateStyle: 'full', timeStyle: 'short' })}
+                Ende: {event.end.toLocaleString('de-DE', { dateStyle: 'full', timeStyle: 'short', timeZone: 'UTC' })}
               </p>
             </li>
           ))}
