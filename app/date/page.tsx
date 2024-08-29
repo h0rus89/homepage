@@ -43,17 +43,26 @@ async function getEvents() {
         end: event.end.toISOString(),
       }));
   
-    return events.slice(0, 3);
+    return events.slice(5, 10);
   }
 
 function listEvents(events: FormattedEvent[]) {
+    const options: Intl.DateTimeFormatOptions = {
+        weekday: 'long',
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric',
+        hour: '2-digit',
+        minute: '2-digit',
+        timeZone: 'Europe/Berlin',
+      };
   return (
     <ul>
       {events.map((event) => (
         <li className="py-2" key={event.uid}>
           <p>{event.title}</p>
           <p>{event.start}</p>
-          <p>{new Date(event.start).toLocaleString('de-DE', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' , hour: '2-digit', minute: '2-digit', timeZone: 'Europe/Berlin'})}</p>
+          <p>{new Date(event.start).toLocaleString('de-DE', options)}</p>
         </li>
       ))}
     </ul>
