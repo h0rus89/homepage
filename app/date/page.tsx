@@ -38,12 +38,12 @@ export default async function EventsPage() {
     return(
         <>
             <h1>Server</h1>
-            <p>{getServerDate().toISOString()}</p>
-            <p>{getServerDate().toLocaleString('de-DE', { dateStyle: 'full', timeStyle: 'short' })}</p>
+            <p>{(await getServerDate()).toISOString()}</p>
+            <p>{(await getServerDate()).toLocaleString('de-DE', { dateStyle: 'full', timeStyle: 'short' })}</p>
             
             <h1>Client</h1>
-            <p>{getClientDate(getServerDate()).toISOString()}</p>
-            <p>{getClientDate(getServerDate()).toLocaleString('de-DE', { dateStyle: 'full', timeStyle: 'short' })}</p>
+            <p>{getClientDate(await getServerDate()).toISOString()}</p>
+            <p>{getClientDate(await getServerDate()).toLocaleString('de-DE', { dateStyle: 'full', timeStyle: 'short' })}</p>
         </>
     )
 }
