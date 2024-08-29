@@ -1,4 +1,4 @@
-import { parseICS } from 'node-ical';
+import ical from 'ical';
 
 async function fetchEvents() {
   const icsUrl = 'https://gas-wadern.de/iserv/public/calendar?key=93c3cb1233d2b766ac86aac74d27585e';
@@ -6,28 +6,28 @@ async function fetchEvents() {
   const icsData = await response.text();
 
   // Parse the ICS data
-  const parsedData = await parseICS(icsData);
+  const parsedData = ical.parseICS(icsData);
   
   const events = Object.values(parsedData)
     .filter((event: any) => event.type === 'VEVENT')
     .map((event: any) => ({
       uid: event.uid,
       title: event.summary,
-      start: event.start,
-      end: event.end,
+      start: new Date(event.start).toLocaleString('de-DE', { timeZone: 'Europe/Berlin' }),
+      end: new Date(event.end).toLocaleString('de-DE', { timeZone: 'Europe/Berlin' }),
     }));
   
   return events.slice(5, 10);
 }
 
-function listEvents(events: Array<{ uid: string; title: string; start: Date; end: Date }>) {
+function listEvents(events: Array<{ uid: string; title: string; start: string; end: string }>) {
   return events.map((event) => (
     
     <div key={event.uid} className="mb-4 p-4 bg-white rounded-md shadow-sm">
       <h3 className="text-lg font-semibold">{event.title}</h3>
       <p className="text-sm text-gray-600">
-        {event.start.toLocaleString('de-DE', { dateStyle: 'full', timeStyle: 'short' })} <br />
-        {event.start.toISOString()}
+        {event.start} <br />
+        {event.start}
       </p>
     </div>
   ));
@@ -45,8 +45,8 @@ export default async function EventsPage() {
         <div key={event.uid} className="mb-4 p-4 bg-white rounded-md shadow-sm">
           <h3 className="text-lg font-semibold">{event.title}</h3>
           <p className="text-sm text-gray-600">
-            {event.start.toLocaleString('de-DE', { dateStyle: 'full', timeStyle: 'short' })}<br />
-            {event.start.toISOString()}
+            {event.start}<br />
+            {event.start}
           </p>
         </div>
       ))}
