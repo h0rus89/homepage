@@ -66,19 +66,21 @@ function formatDateTimeRange(start: Date, end: Date): React.ReactNode {
 
   if (isFullDay) {
     return (
-      <p>{start.toLocaleString('de-DE', { dateStyle: 'short', timeZone: 'UTC' })}</p>
+      <p>ganztägig</p>
     );
   }
 
   if (isSameDay) {
     return (
-      <p>{start.toLocaleString('de-DE', { dateStyle: 'short', timeStyle: 'short', timeZone: 'UTC' })} - {end.toLocaleTimeString('de-DE', { timeStyle: 'short', timeZone: 'UTC' })}</p>
+      <p>{start.toLocaleTimeString('de-DE', { timeStyle: 'short', timeZone: 'UTC' })} - {end.toLocaleTimeString('de-DE', { timeStyle: 'short', timeZone: 'UTC' })}</p>
     );
   }
 
   if (isMultiDay) {
+    const adjustedEnd = new Date(end);
+    adjustedEnd.setDate(adjustedEnd.getDate() - 1);
     return (
-      <p>{start.toLocaleDateString('de-DE', { dateStyle: 'short', timeZone: 'UTC' })} - {end.toLocaleDateString('de-DE', { dateStyle: 'short',timeZone: 'UTC' })}</p>
+      <p>{start.toLocaleDateString('de-DE', { dateStyle: 'short', timeZone: 'UTC' })} - {adjustedEnd.toLocaleDateString('de-DE', { dateStyle: 'short', timeZone: 'UTC' })}</p>
     );
   }
 
