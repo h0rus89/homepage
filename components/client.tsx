@@ -13,7 +13,7 @@ interface Event {
         <li className="py-2" key={event.uid}>
             <p>{event.title}</p>
             <p>{event.start}</p>
-            <p>{new Date(event.start).toLocaleDateString('de-DE', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' , hour: '2-digit', minute: '2-digit'})}</p>
+            <p>{new Date(event.start).toLocaleDateString('de-DE', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' , hour: '2-digit', minute: '2-digit', timeZone: 'UTC'})}</p>
         </li>
         </ul>
     ));
