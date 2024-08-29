@@ -3,7 +3,9 @@
 import { useState } from "react"
 import { Calendar } from "@/components/ui/calendar"
 import { de } from "date-fns/locale"
-import { isSameDay, endOfDay, startOfDay, differenceInDays, differenceInMinutes, differenceInMilliseconds } from "date-fns"
+import { isSameDay, endOfDay, startOfDay, differenceInDays, differenceInMinutes } from "date-fns"
+
+const timezone = "UTC"
 
 interface Event {
   uid: string,
@@ -16,10 +18,10 @@ export function Upcoming({ events }: { events: Event[] }) {
   const [date, setDate] = useState<Date | undefined>(new Date())
 
   const selectedEvents = events.filter(event => {
-  return (
-    isSameDay(event.start, date!) ||
-    (event.start < startOfDay(date!) && event.end > startOfDay(date!))
-  );
+    return (
+      isSameDay(event.start, date!) ||
+      (event.start < startOfDay(date!) && event.end > endOfDay(date!))
+    );
   });
 
   const hasEvents = (day: Date) => events.some(event => {
@@ -72,7 +74,7 @@ function formatDateTimeRange(start: Date, end: Date): React.ReactNode {
 
   if (isSameDay) {
     return (
-      <p>{start.toLocaleTimeString('de-DE', { timeStyle: 'short', timeZone: 'UTC' })} - {end.toLocaleTimeString('de-DE', { timeStyle: 'short', timeZone: 'UTC' })}</p>
+      <p>{start.toLocaleTimeString('de-DE', { timeStyle: 'short', timeZone: timezone })} - {end.toLocaleTimeString('de-DE', { timeStyle: 'short', timeZone: timezone })}</p>
     );
   }
 
@@ -80,13 +82,13 @@ function formatDateTimeRange(start: Date, end: Date): React.ReactNode {
     const adjustedEnd = new Date(end);
     adjustedEnd.setDate(adjustedEnd.getDate() - 1);
     return (
-      <p>{start.toLocaleDateString('de-DE', { dateStyle: 'short', timeZone: 'UTC' })} - {adjustedEnd.toLocaleDateString('de-DE', { dateStyle: 'short', timeZone: 'UTC' })}</p>
+      <p>{start.toLocaleDateString('de-DE', { dateStyle: 'short', timeZone: timezone })} - {adjustedEnd.toLocaleDateString('de-DE', { dateStyle: 'short', timeZone: timezone })}</p>
     );
   }
 
   return (
     <>
-      <p>{start.toLocaleString('de-DE', { dateStyle: 'short', timeStyle: 'short', timeZone: 'UTC' })} - {end.toLocaleString('de-DE', { dateStyle: 'short', timeStyle: 'short', timeZone: 'UTC' })}</p>
+      <p>{start.toLocaleString('de-DE', { dateStyle: 'short', timeStyle: 'short', timeZone: timezone })} - {end.toLocaleString('de-DE', { dateStyle: 'short', timeStyle: 'short', timeZone: timezone })}</p>
     </>
   );
 }
