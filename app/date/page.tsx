@@ -3,7 +3,12 @@ import { format, toZonedTime } from 'date-fns-tz';
 
 async function fetchEvents() {
   const icsUrl = 'https://gas-wadern.de/iserv/public/calendar?key=93c3cb1233d2b766ac86aac74d27585e';
-  const response = await fetch(icsUrl, { next: { revalidate: 60 * 60 * 24 } });
+  const response = await fetch(icsUrl, { next: { revalidate: 60 * 60 * 24 },
+    headers: {
+      'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36',
+      'Accept-Language': 'de-DE,de;q=0.9,en-US;q=0.8,en;q=0.7',
+      'X-Forwarded-For': '85.214.132.117' // Eine deutsche IP-Adresse (Beispiel)
+    } }, );
   const icsData = await response.text();
 
   // Parse the ICS data
