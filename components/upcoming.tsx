@@ -3,7 +3,7 @@
 import { useState } from "react"
 import { Calendar } from "@/components/ui/calendar"
 import { format, isSameDay, isWithinInterval, addDays, subDays, endOfDay } from "date-fns"
-import { toZonedTime } from "date-fns-tz"
+import { toZonedTime, formatInTimeZone } from "date-fns-tz"
 import { de } from "date-fns/locale"
 
 interface Event {
@@ -28,14 +28,14 @@ function formatEventDate(start: Date, end: Date): string {
   if (endZoned.getTime() - startZoned.getTime() > 24 * 60 * 60 * 1000 &&
       startZoned.getHours() === 0 &&
       startZoned.getMinutes() === 0) {
-    return `${format(startZoned, 'dd.MM.yyyy', { locale: de })} - ${format(subDays(endZoned, 1), 'dd.MM.yyyy', { locale: de })}`;
+    return `${formatInTimeZone(startZoned, timeZone, 'dd.MM.yyyy', { locale: de })} - ${formatInTimeZone(subDays(endZoned, 1), timeZone, 'dd.MM.yyyy', { locale: de })}`;
   }
 
   if (isSameDay(startZoned, endZoned)) {
-    return `${format(startZoned, 'dd.MM.yyyy HH:mm', { locale: de })} - ${format(endZoned, 'HH:mm', { locale: de })}`;
+    return `${formatInTimeZone(startZoned, timeZone, 'dd.MM.yyyy HH:mm', { locale: de })} - ${formatInTimeZone(endZoned, timeZone, 'HH:mm', { locale: de })}`;
   }
 
-  return `${format(startZoned, 'dd.MM.yyyy HH:mm', { locale: de })} - ${format(endZoned, 'dd.MM.yyyy HH:mm', { locale: de })}`;
+  return `${formatInTimeZone(startZoned, timeZone, 'dd.MM.yyyy HH:mm', { locale: de })} - ${formatInTimeZone(endZoned, timeZone, 'dd.MM.yyyy HH:mm', { locale: de })}`;
 }
 
 export function Upcoming({ events }: { events: Event[] }) {
