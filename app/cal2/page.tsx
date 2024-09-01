@@ -122,10 +122,10 @@ export default async function EventsPage() {
           <li key={event.uid} className="p-2 bg-white rounded shadow">
             <h3 className="font-semibold">{event.title}</h3>
             <p className="text-sm text-gray-600">
-              {event.start.toLocaleString()} - {event.end.toLocaleString()}
+              {event.start.toLocaleString('de-DE', { timeZone: 'Europe/Berlin' })} - {event.end.toLocaleString('de-DE', { timeZone: 'Europe/Berlin' })}
             </p>
             <p className="text-sm text-gray-600">
-              {event.start.toISOString()} - {event.end.toISOString()}
+              {event.end.toLocaleString('de-DE', { timeZone: 'Europe/Berlin' })} - {event.start.toLocaleString('de-DE', { timeZone: 'Europe/Berlin' })}
             </p>
           </li>
         ))}
