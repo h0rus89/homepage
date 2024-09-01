@@ -25,7 +25,7 @@ function formatEventDate(start: Date, end: Date): string {
   if (endMoment.diff(startMoment, 'hours') > 24 && 
       startMoment.hour() === 0 && 
       startMoment.minute() === 0) {
-    return `${startMoment.format('DD.MM.YYYY')} - ${endMoment.format('DD.MM.YYYY')}`;
+    return `${startMoment.format('DD.MM.YYYY')} - ${endMoment.subtract(1, 'day').format('DD.MM.YYYY')}`;
   }
   
   if (startMoment.isSame(endMoment, 'day')) {
