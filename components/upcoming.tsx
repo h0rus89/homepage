@@ -2,25 +2,15 @@
 
 import { useState } from "react"
 import { Calendar } from "@/components/ui/calendar"
+import { isSameDay, isWithinInterval, startOfDay, endOfDay } from "date-fns";
 import { de } from "date-fns/locale"
+
 
 interface Event {
   uid: string;
   title: string;
-  start: {
-    date: number;
-    time: number | null;
-  };
-  end: {
-    date: number;
-    time: number | null;
-  };
-}
-
-function formatDate(startdate: number, starttime: number | null, enddate: number, endtime: number | null) {
-  return(
-    `${startdate} - ${enddate}`
-  )
+  start: Date;
+  end: Date;
 }
 
 
@@ -28,22 +18,18 @@ export function Upcoming({ events }: { events: Event[] }) {
   const [date, setDate] = useState<Date | undefined>(new Date())
 
   const selectedEvents = events.filter(event => {
-
-    const selectedDate = +date!.toISOString().slice(0, 10).replace(/[-]/g, '')+1;
-
+    if (!date) return false;
     return (
-      event.start.date === selectedDate ||
-      (event.start.date < selectedDate && event.end.date > selectedDate)
+      isSameDay(event.start, date) ||
+      isWithinInterval(date, { start: startOfDay(event.start), end: endOfDay(new Date(event.end.getTime() - 86400000)) })
     );
   });
 
   const hasEvents = (day: Date) => events.some(event => {
-
-    const selectedDay = +day.toISOString().slice(0, 10).replace(/[-]/g, '')+1;
     
-    return (
-      event.start.date === selectedDay ||
-      (event.start.date < selectedDay && event.end.date > selectedDay)
+    return ( 
+      isSameDay(event.start, day) ||
+      isWithinInterval(day, { start: startOfDay(event.start), end: endOfDay(new Date(event.end.getTime() - 86400000)) })
     );
   });
 
@@ -65,7 +51,12 @@ export function Upcoming({ events }: { events: Event[] }) {
           {selectedEvents.map((event, index) => (
             <li key={index} className="border p-4 rounded-md bg-white">
               <h4 className="font-bold">{event.title}</h4>
-              {formatDate(event.start.date, event.start.time, event.end.date, event.end.time)}
+              <p className="text-sm text-gray-600">
+                Von: {event.start.toLocaleString('de-DE', { dateStyle: 'short', timeStyle: 'short' })}
+              </p>
+              <p className="text-sm text-gray-600">
+                Bis: {event.end.toLocaleString('de-DE', { dateStyle: 'short', timeStyle: 'short' })}
+              </p>
             </li>
           ))}
         </ul>

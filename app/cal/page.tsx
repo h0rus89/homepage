@@ -3,21 +3,18 @@ import { Upcoming } from '@/components/upcoming';
 interface Event {
   uid: string;
   title: string;
-  start: {
-    date: number;
-    time: number | null;
-  };
-  end: {
-    date: number;
-    time: number | null;
-  };
+  start: Date;
+  end: Date;
 }
 
 async function fetchEvents(): Promise<Event[]> {
+  
+  // Fetch the ICS data
   const icsUrl = 'https://gas-wadern.de/iserv/public/calendar?key=93c3cb1233d2b766ac86aac74d27585e';
   const response = await fetch(icsUrl, { cache: 'no-store' });
   const icsData = await response.text();
 
+  // Function to parse the ICS data
   function parseICS(icsData: string): Record<string, any> {
     const lines = icsData.split('\n');
     const events: Record<string, any> = {};
@@ -62,23 +59,42 @@ async function fetchEvents(): Promise<Event[]> {
     return events;
   }
 
+  // Parse the ICS data
   const parsedData = parseICS(icsData);
 
+
+  // Convert the parsed data into an array of events
   const events: Event[] = Object.values(parsedData).map((event: any) => ({
     uid: event.uid,
     title: event.summary,
-    start: {
-      date: +event.start.split('T')[0],
-      time: +event.start.split('T')[1] || null,
-    },
-    end: {
-      date: +event.end.split('T')[0],
-      time: +event.end.split('T')[1] || null,
-    },
+    start: createDateObject(event.start),
+    end: createDateObject(event.end),
   }));
-
+  console.log(events)
   return events;
 }
+
+
+// Helper function to create a Date object from the date string
+function createDateObject(dateString: string) {
+  let formattedString;
+
+  if (dateString.length === 15) {
+      // Format "20240904T171500" to "YYYY-MM-DDTHH:MM:SS"
+      formattedString = dateString.replace(/(\d{4})(\d{2})(\d{2})T(\d{2})(\d{2})(\d{2})/, '$1-$2-$3T$4:$5:$6');
+  } else if (dateString.length === 8) {
+      // Format "20240904" to "YYYY-MM-DD"
+      formattedString = dateString.replace(/(\d{4})(\d{2})(\d{2})/, '$1-$2-$3');
+  } else {
+      throw new Error("Invalid date string format");
+  }
+
+  // Create the Date object
+  const dateObject = new Date(formattedString);
+
+  return dateObject;
+}
+
 
 export default async function EventsPage() {
   const events = await fetchEvents();
