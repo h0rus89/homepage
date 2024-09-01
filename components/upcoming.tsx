@@ -2,7 +2,8 @@
 
 import { useState } from "react"
 import { Calendar } from "@/components/ui/calendar"
-import moment from "moment-timezone";
+import { format, isSameDay, isWithinInterval, addDays, subDays, endOfDay } from "date-fns"
+import { toZonedTime } from "date-fns-tz"
 import { de } from "date-fns/locale"
 
 interface Event {
@@ -12,27 +13,29 @@ interface Event {
   end: Date;
 }
 
+const timeZone = 'Europe/Berlin';
+
 function formatEventDate(start: Date, end: Date): string {
-  const startMoment = moment(start).tz('Europe/Berlin');
-  const endMoment = moment(end).tz('Europe/Berlin');
-  
-  if (endMoment.diff(startMoment, 'hours') === 24 && 
-      startMoment.hour() === 0 && 
-      startMoment.minute() === 0) {
+  const startZoned = toZonedTime(start, timeZone);
+  const endZoned = toZonedTime(end, timeZone);
+
+  if (endZoned.getTime() - startZoned.getTime() === 24 * 60 * 60 * 1000 &&
+      startZoned.getHours() === 0 &&
+      startZoned.getMinutes() === 0) {
     return "ganztägig";
   }
 
-  if (endMoment.diff(startMoment, 'hours') > 24 && 
-      startMoment.hour() === 0 && 
-      startMoment.minute() === 0) {
-    return `${startMoment.format('DD.MM.YYYY')} - ${endMoment.subtract(1, 'day').format('DD.MM.YYYY')}`;
+  if (endZoned.getTime() - startZoned.getTime() > 24 * 60 * 60 * 1000 &&
+      startZoned.getHours() === 0 &&
+      startZoned.getMinutes() === 0) {
+    return `${format(startZoned, 'dd.MM.yyyy', { locale: de })} - ${format(subDays(endZoned, 1), 'dd.MM.yyyy', { locale: de })}`;
   }
-  
-  if (startMoment.isSame(endMoment, 'day')) {
-    return `${startMoment.format('DD.MM.YYYY HH:mm')} - ${endMoment.format('HH:mm')}`;
+
+  if (isSameDay(startZoned, endZoned)) {
+    return `${format(startZoned, 'dd.MM.yyyy HH:mm', { locale: de })} - ${format(endZoned, 'HH:mm', { locale: de })}`;
   }
-  
-  return `${startMoment.format('DD.MM.YYYY HH:mm')} - ${endMoment.format('DD.MM.YYYY HH:mm')}`;
+
+  return `${format(startZoned, 'dd.MM.yyyy HH:mm', { locale: de })} - ${format(endZoned, 'dd.MM.yyyy HH:mm', { locale: de })}`;
 }
 
 export function Upcoming({ events }: { events: Event[] }) {
@@ -40,23 +43,23 @@ export function Upcoming({ events }: { events: Event[] }) {
 
   const selectedEvents = events.filter(event => {
     if (!date) return false;
-    const momentDate = moment(date);
-    const momentStart = moment(event.start);
-    const momentEnd = moment(event.end).subtract(1, 'day').endOf('day');
+    const zonedDate = toZonedTime(date, timeZone);
+    const zonedStart = toZonedTime(event.start, timeZone);
+    const zonedEnd = endOfDay(subDays(toZonedTime(event.end, timeZone), 1));
     return (
-      momentDate.isSame(momentStart, 'day') ||
-      momentDate.isBetween(momentStart, momentEnd, 'day', '[]')
+      isSameDay(zonedDate, zonedStart) ||
+      isWithinInterval(zonedDate, { start: zonedStart, end: zonedEnd })
     );
   });
 
   const hasEvents = (day: Date) => events.some(event => {
-    const momentDay = moment(day).tz('Europe/Berlin');
-    const momentStart = moment(event.start).tz('Europe/Berlin');
-    const momentEnd = moment(event.end).tz('Europe/Berlin').subtract(1, 'day').endOf('day');
+    const zonedDay = toZonedTime(day, timeZone);
+    const zonedStart = toZonedTime(event.start, timeZone);
+    const zonedEnd = endOfDay(subDays(toZonedTime(event.end, timeZone), 1));
     
-    return ( 
-      momentDay.isSame(momentStart, 'day') ||
-      momentDay.isBetween(momentStart, momentEnd, 'day', '[]')
+    return (
+      isSameDay(zonedDay, zonedStart) ||
+      isWithinInterval(zonedDay, { start: zonedStart, end: zonedEnd })
     );
   });
 
