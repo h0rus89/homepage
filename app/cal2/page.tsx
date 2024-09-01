@@ -104,7 +104,9 @@ function convertToUTC(dateString: string): Date {
     throw new Error('Invalid date string format');
   }
 
-  const utcDate = new Date(date.toLocaleString('en-US', { timeZone: 'UTC' }));
+  const offset = new Date().getTimezoneOffset() * 60000;
+  const berlinOffset = new Date(date.toLocaleString('en-US', { timeZone: berlinTimeZone })).getTime() - date.getTime();
+  const utcDate = new Date(date.getTime() - berlinOffset + offset);
 
   return utcDate;
 }
