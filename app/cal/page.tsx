@@ -1,5 +1,5 @@
 import { Upcoming } from '@/components/upcoming';
-import { toZonedTime } from "date-fns-tz"
+import { fromZonedTime } from "date-fns-tz"
 
 interface Event {
   uid: string;
@@ -68,8 +68,8 @@ async function fetchEvents(): Promise<Event[]> {
   const events: Event[] = Object.values(parsedData).map((event: any) => ({
     uid: event.uid,
     title: event.summary,
-    start: toZonedTime(createDateObject(event.start), 'Europe/Berlin'),
-    end: toZonedTime(createDateObject(event.end), 'Europe/Berlin'),
+    start: fromZonedTime(createDateObject(event.start), 'Europe/Berlin'),
+    end: fromZonedTime(createDateObject(event.end), 'Europe/Berlin'),
   }));
 
   return events;
