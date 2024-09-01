@@ -2,7 +2,7 @@
 
 import { useState } from "react"
 import { Calendar } from "@/components/ui/calendar"
-import { format, isSameDay, isWithinInterval, addDays, subDays, endOfDay } from "date-fns"
+import { isSameDay, isWithinInterval, subDays, endOfDay } from "date-fns"
 import { toZonedTime, formatInTimeZone } from "date-fns-tz"
 import { de } from "date-fns/locale"
 
