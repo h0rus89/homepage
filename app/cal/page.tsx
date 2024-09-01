@@ -1,4 +1,5 @@
 import { Upcoming } from '@/components/upcoming';
+import moment from 'moment-timezone';
 
 interface Event {
   uid: string;
@@ -67,10 +68,10 @@ async function fetchEvents(): Promise<Event[]> {
   const events: Event[] = Object.values(parsedData).map((event: any) => ({
     uid: event.uid,
     title: event.summary,
-    start: createDateObject(event.start),
-    end: createDateObject(event.end),
+    start: moment.tz(event.start, 'Europe/Berlin').toDate(),
+    end: moment.tz(event.end, 'Europe/Berlin').toDate(),
   }));
-  console.log(events)
+
   return events;
 }
 

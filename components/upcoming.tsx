@@ -59,7 +59,7 @@ export function Upcoming({ events }: { events: Event[] }) {
               </p>
             </li>
           ))}
-        </ul>
+        </ul> 
       )}
     </div>
   )
