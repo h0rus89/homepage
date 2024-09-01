@@ -5,7 +5,7 @@ import { Calendar } from "@/components/ui/calendar"
 import { de } from "date-fns/locale"
 import { isSameDay, endOfDay, startOfDay, differenceInDays, differenceInMinutes } from "date-fns"
 
-const timezone = "UTC"
+const timezone = "Europe/Berlin"
 
 interface Event {
   uid: string,

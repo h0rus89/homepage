@@ -117,20 +117,7 @@ export default async function EventsPage() {
   return (
     <div>
       <h1 className="text-2xl font-bold">Kalender</h1>
-      <ul className="mt-4 space-y-2">
-        {events.map((event) => (
-          <li key={event.uid} className="p-2 bg-white rounded shadow">
-            <h3 className="font-semibold">{event.title}</h3>
-            <p className="text-sm text-gray-600">
-              {event.start.toLocaleString('de-DE', { timeZone: 'Europe/Berlin' })} - {event.end.toLocaleString('de-DE', { timeZone: 'Europe/Berlin' })}
-            </p>
-            <p className="text-sm text-gray-600">
-              {event.end.toLocaleString('de-DE', { timeZone: 'Europe/Berlin' })} - {event.start.toLocaleString('de-DE', { timeZone: 'Europe/Berlin' })}
-            </p>
-          </li>
-        ))}
-      </ul>
-      {/* <Upcoming events={events} /> */}
+      <Upcoming events={events} />
     </div>
   );
 }
