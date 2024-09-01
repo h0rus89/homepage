@@ -12,7 +12,7 @@ async function fetchEvents(): Promise<Event[]> {
   
   // Fetch the ICS data
   const icsUrl = 'https://gas-wadern.de/iserv/public/calendar?key=93c3cb1233d2b766ac86aac74d27585e';
-  const response = await fetch(icsUrl, { cache: 'no-store' });
+  const response = await fetch(icsUrl, { next: { revalidate: 86400 } });
   const icsData = await response.text();
 
   // Function to parse the ICS data
