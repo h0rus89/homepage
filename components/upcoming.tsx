@@ -3,33 +3,49 @@
 import { useState } from "react"
 import { Calendar } from "@/components/ui/calendar"
 import { de } from "date-fns/locale"
-import { isSameDay, endOfDay, startOfDay, differenceInDays, differenceInMinutes } from "date-fns"
-
-const timezone = "Europe/Berlin"
 
 interface Event {
-  uid: string,
+  uid: string;
   title: string;
-  start: Date;
-  end: Date;
+  start: {
+    date: number;
+    time: number | null;
+  };
+  end: {
+    date: number;
+    time: number | null;
+  };
 }
+
+function formatDate(startdate: number, starttime: number | null, enddate: number, endtime: number | null) {
+  return(
+    `${startdate} - ${enddate}`
+  )
+}
+
 
 export function Upcoming({ events }: { events: Event[] }) {
   const [date, setDate] = useState<Date | undefined>(new Date())
 
   const selectedEvents = events.filter(event => {
+
+    const selectedDate = +date!.toISOString().slice(0, 10).replace(/[-]/g, '')+1;
+
     return (
-      isSameDay(event.start, date!) ||
-      (event.start < startOfDay(date!) && event.end > endOfDay(date!))
+      event.start.date === selectedDate ||
+      (event.start.date < selectedDate && event.end.date > selectedDate)
     );
   });
 
   const hasEvents = (day: Date) => events.some(event => {
-  return (
-    isSameDay(event.start, day) ||
-    (event.start < startOfDay(day) && event.end > endOfDay(day))
-  );
-  })
+
+    const selectedDay = +day.toISOString().slice(0, 10).replace(/[-]/g, '')+1;
+    
+    return (
+      event.start.date === selectedDay ||
+      (event.start.date < selectedDay && event.end.date > selectedDay)
+    );
+  });
 
   return (
     <div className="flex flex-col sm:flex-row gap-4 items-start justify-start mt-8">
@@ -46,49 +62,17 @@ export function Upcoming({ events }: { events: Event[] }) {
       />
       {selectedEvents.length > 0 && (
         <ul className="space-y-4 flex-grow w-full sm:w-auto">
+          <p>Local: {date?.toLocaleString()}</p>
+          <p>ISO: {date!.toISOString()}</p>
+          <p>UTC: {date!.toUTCString()}</p>
           {selectedEvents.map((event, index) => (
             <li key={index} className="border p-4 rounded-md bg-white">
               <h4 className="font-bold">{event.title}</h4>
-              {formatDateTimeRange(event.start, event.end)}
+              {formatDate(event.start.date, event.start.time, event.end.date, event.end.time)}
             </li>
           ))}
         </ul>
       )}
     </div>
   )
-}
-
-function formatDateTimeRange(start: Date, end: Date): React.ReactNode {
-
-  const isFullDay = differenceInMinutes(end, start) === 24 * 60 && (start.getHours() === 22 && end.getHours() === 22 || start.getHours() === 23 && end.getHours() === 23);
-
-  const isSameDay = differenceInDays(end, start) === 0;
-
-  const isMultiDay = differenceInDays(end, start) > 1 && (start.getHours() === 22 && end.getHours() === 22 || start.getHours() === 23 && end.getHours() === 23);
-
-  if (isFullDay) {
-    return (
-      <p>ganztägig</p>
-    );
-  }
-
-  if (isSameDay) {
-    return (
-      <p>{start.toLocaleTimeString('de-DE', { timeStyle: 'short', timeZone: timezone })} - {end.toLocaleTimeString('de-DE', { timeStyle: 'short', timeZone: timezone })}</p>
-    );
-  }
-
-  if (isMultiDay) {
-    const adjustedEnd = new Date(end);
-    adjustedEnd.setDate(adjustedEnd.getDate() - 1);
-    return (
-      <p>{start.toLocaleDateString('de-DE', { dateStyle: 'short', timeZone: timezone })} - {adjustedEnd.toLocaleDateString('de-DE', { dateStyle: 'short', timeZone: timezone })}</p>
-    );
-  }
-
-  return (
-    <>
-      <p>{start.toLocaleString('de-DE', { dateStyle: 'short', timeStyle: 'short', timeZone: timezone })} - {end.toLocaleString('de-DE', { dateStyle: 'short', timeStyle: 'short', timeZone: timezone })}</p>
-    </>
-  );
 }
