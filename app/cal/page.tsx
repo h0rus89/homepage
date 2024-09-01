@@ -1,5 +1,5 @@
 import { Upcoming } from '@/components/upcoming';
-import moment from 'moment-timezone';
+import { toZonedTime } from "date-fns-tz"
 
 interface Event {
   uid: string;
@@ -68,8 +68,8 @@ async function fetchEvents(): Promise<Event[]> {
   const events: Event[] = Object.values(parsedData).map((event: any) => ({
     uid: event.uid,
     title: event.summary,
-    start: moment.tz(event.start, 'Europe/Berlin').toDate(),
-    end: moment.tz(event.end, 'Europe/Berlin').toDate(),
+    start: toZonedTime(createDateObject(event.start), 'Europe/Berlin'),
+    end: toZonedTime(createDateObject(event.end), 'Europe/Berlin'),
   }));
 
   return events;
