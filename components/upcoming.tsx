@@ -62,9 +62,6 @@ export function Upcoming({ events }: { events: Event[] }) {
       />
       {selectedEvents.length > 0 && (
         <ul className="space-y-4 flex-grow w-full sm:w-auto">
-          <p>Local: {date?.toLocaleString()}</p>
-          <p>ISO: {date!.toISOString()}</p>
-          <p>UTC: {date!.toUTCString()}</p>
           {selectedEvents.map((event, index) => (
             <li key={index} className="border p-4 rounded-md bg-white">
               <h4 className="font-bold">{event.title}</h4>
