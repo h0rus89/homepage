@@ -2,9 +2,8 @@
 
 import { useState } from "react"
 import { Calendar } from "@/components/ui/calendar"
-import { isSameDay, isWithinInterval, startOfDay, endOfDay } from "date-fns";
+import moment from "moment-timezone";
 import { de } from "date-fns/locale"
-
 
 interface Event {
   uid: string;
@@ -13,23 +12,51 @@ interface Event {
   end: Date;
 }
 
+function formatEventDate(start: Date, end: Date): string {
+  const startMoment = moment(start).tz('Europe/Berlin');
+  const endMoment = moment(end).tz('Europe/Berlin');
+  
+  if (endMoment.diff(startMoment, 'hours') === 24 && 
+      startMoment.hour() === 0 && 
+      startMoment.minute() === 0) {
+    return "ganztägig";
+  }
+
+  if (endMoment.diff(startMoment, 'hours') > 24 && 
+      startMoment.hour() === 0 && 
+      startMoment.minute() === 0) {
+    return `${startMoment.format('DD.MM.YYYY')} - ${endMoment.format('DD.MM.YYYY')}`;
+  }
+  
+  if (startMoment.isSame(endMoment, 'day')) {
+    return `${startMoment.format('DD.MM.YYYY HH:mm')} - ${endMoment.format('HH:mm')}`;
+  }
+  
+  return `${startMoment.format('DD.MM.YYYY HH:mm')} - ${endMoment.format('DD.MM.YYYY HH:mm')}`;
+}
 
 export function Upcoming({ events }: { events: Event[] }) {
   const [date, setDate] = useState<Date | undefined>(new Date())
 
   const selectedEvents = events.filter(event => {
     if (!date) return false;
+    const momentDate = moment(date);
+    const momentStart = moment(event.start);
+    const momentEnd = moment(event.end).subtract(1, 'day').endOf('day');
     return (
-      isSameDay(event.start, date) ||
-      isWithinInterval(date, { start: startOfDay(event.start), end: endOfDay(new Date(event.end.getTime() - 86400000)) })
+      momentDate.isSame(momentStart, 'day') ||
+      momentDate.isBetween(momentStart, momentEnd, 'day', '[]')
     );
   });
 
   const hasEvents = (day: Date) => events.some(event => {
+    const momentDay = moment(day).tz('Europe/Berlin');
+    const momentStart = moment(event.start).tz('Europe/Berlin');
+    const momentEnd = moment(event.end).tz('Europe/Berlin').subtract(1, 'day').endOf('day');
     
     return ( 
-      isSameDay(event.start, day) ||
-      isWithinInterval(day, { start: startOfDay(event.start), end: endOfDay(new Date(event.end.getTime() - 86400000)) })
+      momentDay.isSame(momentStart, 'day') ||
+      momentDay.isBetween(momentStart, momentEnd, 'day', '[]')
     );
   });
 
@@ -52,10 +79,7 @@ export function Upcoming({ events }: { events: Event[] }) {
             <li key={index} className="border p-4 rounded-md bg-white">
               <h4 className="font-bold">{event.title}</h4>
               <p className="text-sm text-gray-600">
-                Von: {event.start.toLocaleString('de-DE', { dateStyle: 'short', timeStyle: 'short' })}
-              </p>
-              <p className="text-sm text-gray-600">
-                Bis: {event.end.toLocaleString('de-DE', { dateStyle: 'short', timeStyle: 'short' })}
+                {formatEventDate(event.start, event.end)}
               </p>
             </li>
           ))}
