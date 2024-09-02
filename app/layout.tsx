@@ -59,8 +59,8 @@ export default function RootLayout({
         GeistMono.variable
       )}
     >
-      <body className="antialiased mb-40 flex flex-col md:flex-row mx-4">
-        <main className="min-w-0 max-w-2xl flex flex-col px-2 pt-32 md:px-0">
+      <body className="antialiased">
+        <main className="max-w-2xl mx-auto px-2 pt-32 md:px-0">
           <FamilyDrawer />
           {children}
 
