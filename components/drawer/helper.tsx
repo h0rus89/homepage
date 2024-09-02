@@ -84,7 +84,7 @@ export function Gemeinsam({ setView }) {
         <Header
           title="Gemeinsam"
         />
-        <ul className="mt-6 space-y-4 border-t border-[#F5F5F5] pt-6">
+        <ul className="mt-6 space-y-4 border-t border-[#F5F5F5] pt-6 max-h-[70vh] overflow-y-auto">
           {menuItems.gemeinsam.map((item, index) => (
             <li key={index} className="flex items-center gap-3 text-[15px] font-semibold text-[#999999] md:font-medium">
               {item}
@@ -117,7 +117,7 @@ export function Aktiv({ setView }) {
         <Header
           title="Aktiv"
         />
-        <ul className="mt-6 space-y-4 border-t border-[#F5F5F5] pt-6">
+        <ul className="mt-6 space-y-4 border-t border-[#F5F5F5] pt-6 max-h-[70vh] overflow-y-auto">
           {menuItems.aktiv.map((item, index) => (
             <li key={index} className="flex items-center gap-3 text-[15px] font-semibold text-[#999999] md:font-medium">
               {item}
@@ -150,7 +150,7 @@ export function Stark({ setView }) {
         <Header
           title="Stark"
         />
-        <ul className="mt-6 space-y-4 border-t border-[#F5F5F5] pt-6">
+        <ul className="mt-6 space-y-4 border-t border-[#F5F5F5] pt-6 max-h-[70vh] overflow-y-auto">
           {menuItems.stark.map((item, index) => (
             <li key={index} className="flex items-center gap-3 text-[15px] font-semibold text-[#999999] md:font-medium">
               {item}
