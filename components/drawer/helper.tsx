@@ -118,7 +118,7 @@ function Footer({ setView, handleCloseDrawer }: FooterProps) {
       </SecondaryButton>
       <SecondaryButton
         onClick={handleCloseDrawer}
-        className="bg-[#4DAFFF] text-[#FFFFFF]"
+        className="bg-[#FF3F40] text-[#FFFFFF]"
       >
         Schließen
       </SecondaryButton>
