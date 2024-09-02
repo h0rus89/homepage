@@ -3,6 +3,7 @@ import type { Metadata } from 'next';
 import { GeistSans } from 'geist/font/sans';
 import { GeistMono } from 'geist/font/mono';
 import { Navbar } from '@/components/nav';
+import FamilyDrawer from '@/components/drawer/menu';
 import { Analytics } from '@vercel/analytics/react';
 import { SpeedInsights } from '@vercel/speed-insights/next';
 
@@ -58,10 +59,11 @@ export default function RootLayout({
         GeistMono.variable
       )}
     >
-      <body className="antialiased max-w-2xl mb-40 flex flex-col md:flex-row mx-4 mx-auto">
-        <main className="flex-auto min-w-0 flex flex-col px-2 pt-32 md:px-0">
-          <Navbar />
+      <body className="antialiased mb-40 flex flex-col md:flex-row mx-4">
+        <main className="min-w-0 max-w-2xl flex flex-col px-2 pt-32 md:px-0">
+          <FamilyDrawer />
           {children}
+
           <Analytics />
           <SpeedInsights />
         </main>
