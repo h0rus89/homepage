@@ -1,5 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import clsx from "clsx";
+import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area"
+
 
 const menuItems = {
   gemeinsam: [
@@ -159,13 +161,16 @@ export function Gemeinsam({ setView }) {
     <div>
       <div className="px-2">
         <Header title="Gemeinsam" />
-        <ScrollableList>
+        <ScrollArea>
+        <ul className="mt-6 space-y-4 border-t border-[#F5F5F5] pt-6 max-h-[50vh] overflow-y-auto pr-2">
           {menuItems.gemeinsam.map((item, index) => (
             <li key={index} className="flex items-center gap-3 text-[15px] font-semibold text-[#999999] md:font-medium">
               {item}
             </li>
           ))}
-        </ScrollableList>
+          </ul>
+          <ScrollBar className="hidden" />
+        </ScrollArea>
       </div>
       <div className="mt-7 flex gap-4">
         <SecondaryButton
