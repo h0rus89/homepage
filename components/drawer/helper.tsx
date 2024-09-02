@@ -80,18 +80,18 @@ export function SecondaryButton({ children, onClick, className }) {
 
 export function Header({ title }: HeaderProps) {
   return (
-    <header className="mt-[21px] flex-shrink-0">
-      <h2 className="mt-2.5 border-b border-[#F5F5F5] pb-6 text-[22px] font-semibold text-[#222222] md:font-medium">
-        {title}
-      </h2>
-    </header>
+    <header className="mb-4 flex flex-shrink-0 h-[72px] items-center border-b border-[#F7F7F7]">
+        <h2 className="text-[19px] font-semibold text-[#222222] md:font-medium">
+          {title}
+        </h2>
+      </header>
   );
 }
 
 function Content({ items }: ContentProps) {
   return (
     <ScrollArea className="relative flex-grow-1">
-      <ul className="max-h-[70vh] space-y-4 overflow-y-auto pb-6 pr-2 pt-6">
+      <ul className="max-h-[70vh] space-y-4 overflow-y-auto">
         {items.map((item, index) => (
           <li
             key={index}
@@ -102,8 +102,6 @@ function Content({ items }: ContentProps) {
         ))}
       </ul>
       <ScrollBar />
-      <div className="pointer-events-none absolute bottom-0 left-0 right-0 flex h-8 justify-center bg-gradient-to-t from-white to-transparent"></div>
-      <div className="pointer-events-none absolute top-0 left-0 right-0 flex h-8 justify-center bg-gradient-to-b from-white to-transparent"></div>
     </ScrollArea>
   );
 }
