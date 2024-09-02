@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useRef, useState } from "react";
 import clsx from "clsx";
 
 const menuItems = {
@@ -39,7 +39,6 @@ const menuItems = {
   ]
 };
 
-
 export function Button({ children, onClick }) {
   return (
     <button
@@ -77,20 +76,96 @@ export function Header({ title }) {
   );
 }
 
+function ScrollableList({ children }: { children: React.ReactNode }) {
+  const [atEnd, setAtEnd] = useState(false);
+  const [atStart, setAtStart] = useState(true);
+  const scrollRef = useRef<HTMLUListElement>(null);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      if (scrollRef.current) {
+        const { scrollTop, scrollHeight, clientHeight } = scrollRef.current;
+        setAtEnd(scrollTop + clientHeight >= scrollHeight);
+        setAtStart(scrollTop === 0);
+      }
+    };
+
+    const currentRef = scrollRef.current;
+    if (currentRef) {
+      currentRef.addEventListener('scroll', handleScroll);
+    }
+
+    return () => {
+      if (currentRef) {
+        currentRef.removeEventListener('scroll', handleScroll);
+      }
+    };
+  }, []);
+
+  return (
+    <div className="relative">
+      {!atStart && (
+        <div className="absolute top-0 left-0 right-0 flex justify-center h-8 bg-gradient-to-b from-white to-transparent pointer-events-none">
+          <div className="bounce-animation">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+              className="w-6 h-6 text-gray-500"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M5 15l7-7 7 7"
+              />
+            </svg>
+          </div>
+        </div>
+      )}
+      <ul
+        ref={scrollRef}
+        className="mt-6 space-y-4 border-t border-[#F5F5F5] pt-6 max-h-[50vh] overflow-y-auto pr-2 no-scrollbar"
+      >
+        {children}
+      </ul>
+      {!atEnd && (
+        <div className="absolute bottom-0 left-0 right-0 flex justify-center h-8 bg-gradient-to-t from-white to-transparent pointer-events-none">
+          <div className="bounce-animation">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+              className="w-6 h-6 text-gray-500"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M19 9l-7 7-7-7"
+              />
+            </svg>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}
+
 export function Gemeinsam({ setView }) {
   return (
     <div>
       <div className="px-2">
-        <Header
-          title="Gemeinsam"
-        />
-        <ul className="mt-6 space-y-4 border-t border-[#F5F5F5] pt-6 max-h-[50vh] overflow-y-auto">
+        <Header title="Gemeinsam" />
+        <ScrollableList>
           {menuItems.gemeinsam.map((item, index) => (
             <li key={index} className="flex items-center gap-3 text-[15px] font-semibold text-[#999999] md:font-medium">
               {item}
             </li>
           ))}
-        </ul>
+        </ScrollableList>
       </div>
       <div className="mt-7 flex gap-4">
         <SecondaryButton
@@ -114,16 +189,14 @@ export function Aktiv({ setView }) {
   return (
     <div>
       <div className="px-2">
-        <Header
-          title="Aktiv"
-        />
-        <ul className="mt-6 space-y-4 border-t border-[#F5F5F5] pt-6 max-h-[50vh] overflow-y-auto">
+        <Header title="Aktiv" />
+        <ScrollableList>
           {menuItems.aktiv.map((item, index) => (
             <li key={index} className="flex items-center gap-3 text-[15px] font-semibold text-[#999999] md:font-medium">
               {item}
             </li>
           ))}
-        </ul>
+        </ScrollableList>
       </div>
       <div className="mt-7 flex gap-4">
         <SecondaryButton
@@ -136,7 +209,7 @@ export function Aktiv({ setView }) {
           onClick={() => setView("default")}
           className="bg-[#4DAFFF] text-[#FFFFFF]"
         >
-Schließen
+          Schließen
         </SecondaryButton>
       </div>
     </div>
@@ -147,16 +220,14 @@ export function Stark({ setView }) {
   return (
     <div>
       <div className="px-2">
-        <Header
-          title="Stark"
-        />
-        <ul className="mt-6 space-y-4 border-t border-[#F5F5F5] pt-6 max-h-[50vh] overflow-y-auto">
+        <Header title="Stark" />
+        <ScrollableList>
           {menuItems.stark.map((item, index) => (
             <li key={index} className="flex items-center gap-3 text-[15px] font-semibold text-[#999999] md:font-medium">
               {item}
             </li>
           ))}
-        </ul>
+        </ScrollableList>
       </div>
       <div className="mt-7 flex gap-4">
         <SecondaryButton
