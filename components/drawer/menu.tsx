@@ -9,7 +9,7 @@ import { CloseIcon } from "@/components/drawer/icons";
 import { Home } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from 'next/navigation';
-
+import { Button } from "@/components/ui/button";
 
 export default function FamilyDrawer() {
   const [isOpen, setIsOpen] = useState(false);
@@ -19,7 +19,7 @@ export default function FamilyDrawer() {
   const pathname = usePathname();
   const isHomePage = pathname === '/';
 
-  // Neue Funktion zum Schließen des Drawers
+  // Funktion zum Schließen des Drawers
   const handleCloseDrawer = () => {
     setIsOpen(false);
     setView("default");
@@ -30,42 +30,49 @@ export default function FamilyDrawer() {
       case "default":
         return <DefaultView setView={setView} />;
       case "stark":
-        return <Stark setView={setView} />;
+        return <Stark setView={setView} handleCloseDrawer={handleCloseDrawer} />;
       case "aktiv":
-        return <Aktiv setView={setView} />;
+        return <Aktiv setView={setView} handleCloseDrawer={handleCloseDrawer} />;
       case "gemeinsam":
-        return <Gemeinsam setView={setView} />;
+        return <Gemeinsam setView={setView} handleCloseDrawer={handleCloseDrawer} />;
     }
-  }, [view]);
+  }, [view, handleCloseDrawer]);
 
   return (
     <>
       <motion.div className="sticky top-0 flex items-center justify-center" layout>
-      <AnimatePresence mode="popLayout">
-        {!isHomePage && (
-          <motion.div
-            className="h-[44px] flex items-center justify-center mr-2 rounded-full border border-gray-200 bg-white px-4 py-2 font-medium text-black transition-colors hover:bg-[#F9F9F8] focus-visible:shadow-focus-ring-button md:font-medium cursor-pointer"
-            initial={{ opacity: 0, x: 30 }}
-            animate={{ opacity: 1, x: 0 }}
-            exit={{ opacity: 0, x: 30 }}
-            transition={{ type: "spring"}}
-            layout
-          >
-            <Link href="/">
-              <Home />
-            </Link>
-          </motion.div>
-        )}
-      </AnimatePresence>
+        <AnimatePresence mode="popLayout">
+          {!isHomePage && (
+            <motion.div
+              className="mr-2"
+              initial={{ opacity: 0, x: 30 }}
+              animate={{ opacity: 1, x: 0 }}
+              exit={{ opacity: 0, x: 30 }}
+              transition={{ type: "spring"}}
+              layout
+            >
+              <Button
+                variant="outline"
+                size="icon"
+                asChild
+                className="h-[44px] w-[44px] rounded-full border border-gray-200 bg-white text-black transition-colors hover:bg-[#F9F9F8] focus-visible:shadow-focus-ring-button"
+              >
+                <Link href="/">
+                  <Home className="h-5 w-5" />
+                </Link>
+              </Button>
+            </motion.div>
+          )}
+        </AnimatePresence>
 
-      <motion.div
-        className="h-[44px] flex items-center justify-center rounded-full border border-gray-200 bg-white px-4 py-2 font-medium text-black transition-colors hover:bg-[#F9F9F8] focus-visible:shadow-focus-ring-button md:font-medium cursor-pointer"
-        onClick={() => setIsOpen(true)}
-        layout
-      >
-        Menü
+        <Button
+          variant="outline"
+          onClick={() => setIsOpen(true)}
+          className="h-[44px] rounded-full border border-gray-200 bg-white px-4 py-2 font-medium text-black transition-colors hover:bg-[#F9F9F8] focus-visible:shadow-focus-ring-button md:font-medium"
+        >
+          Menü
+        </Button>
       </motion.div>
-    </motion.div>
 
       <Drawer.Root 
         open={isOpen} 

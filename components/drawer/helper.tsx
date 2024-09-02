@@ -49,9 +49,10 @@ interface ContentProps {
 
 interface FooterProps {
   setView: (view: string) => void;
+  handleCloseDrawer: () => void;
 }
 
-export function Button({ children, onClick }) {
+export function PrimaryButton({ children, onClick }) {
   return (
     <button
       data-vaul-no-drag=""
@@ -106,7 +107,7 @@ function Content({ items }: ContentProps) {
   );
 }
 
-function Footer({ setView }: FooterProps) {
+function Footer({ setView, handleCloseDrawer }: FooterProps) {
   return (
     <div className="mt-4 flex flex-shrink-0 gap-4">
       <SecondaryButton
@@ -116,7 +117,7 @@ function Footer({ setView }: FooterProps) {
         Zurück
       </SecondaryButton>
       <SecondaryButton
-        onClick={() => setView("default")}
+        onClick={handleCloseDrawer}
         className="bg-[#4DAFFF] text-[#FFFFFF]"
       >
         Schließen
@@ -125,32 +126,32 @@ function Footer({ setView }: FooterProps) {
   );
 }
 
-export function Gemeinsam({ setView }) {
+export function Gemeinsam({ setView, handleCloseDrawer }) {
   return (
     <div className="flex max-h-[80vh] flex-col px-2">
       <Header title="Gemeinsam" />
       <Content items={menuItems.gemeinsam} />
-      <Footer setView={setView} />
+      <Footer setView={setView} handleCloseDrawer={handleCloseDrawer} />
     </div>
   );
 }
 
-export function Aktiv({ setView }) {
+export function Aktiv({ setView, handleCloseDrawer }) {
   return (
     <div className="flex max-h-[80vh] flex-col px-2">
       <Header title="Aktiv" />
       <Content items={menuItems.aktiv} />
-      <Footer setView={setView} />
+      <Footer setView={setView} handleCloseDrawer={handleCloseDrawer} />
     </div>
   );
 }
 
-export function Stark({ setView }) {
+export function Stark({ setView, handleCloseDrawer }) {
   return (
     <div className="flex max-h-[80vh] flex-col px-2">
       <Header title="Stark" />
       <Content items={menuItems.stark} />
-      <Footer setView={setView} />
+      <Footer setView={setView} handleCloseDrawer={handleCloseDrawer} />
     </div>
   );
 }
@@ -164,9 +165,9 @@ export function DefaultView({ setView }) {
         </h2>
       </header>
       <div className="space-y-3">
-        <Button onClick={() => setView("gemeinsam")}>Gemeinsam</Button>
-        <Button onClick={() => setView("aktiv")}>Aktiv</Button>
-        <Button onClick={() => setView("stark")}>Stark</Button>
+        <PrimaryButton onClick={() => setView("gemeinsam")}>Gemeinsam</PrimaryButton>
+        <PrimaryButton onClick={() => setView("aktiv")}>Aktiv</PrimaryButton>
+        <PrimaryButton onClick={() => setView("stark")}>Stark</PrimaryButton>
       </div>
     </>
   );
