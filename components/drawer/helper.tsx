@@ -126,7 +126,7 @@ function ScrollableList({ children }: { children: React.ReactNode }) {
       )}
       <ul
         ref={scrollRef}
-        className="mx-8 px-8 space-y-4 border-t border-[#F5F5F5] pt-6 max-h-[50vh] overflow-y-auto pr-2 no-scrollbar"
+        className="mx-8 px-8 space-y-4 border-t border-[#F5F5F5] max-h-[50vh] overflow-y-auto pr-2 no-scrollbar"
       >
         {children}
       </ul>
