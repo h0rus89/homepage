@@ -19,6 +19,12 @@ export default function FamilyDrawer() {
   const pathname = usePathname();
   const isHomePage = pathname === '/';
 
+  // Neue Funktion zum Schließen des Drawers
+  const handleCloseDrawer = () => {
+    setIsOpen(false);
+    setView("default");
+  };
+
   const content = useMemo(() => {
     switch (view) {
       case "default":
@@ -34,15 +40,15 @@ export default function FamilyDrawer() {
 
   return (
     <>
-      <motion.div className="fixed top-8 flex space-x-4" layout>
+      <motion.div className="sticky top-0 flex items-center justify-center" layout>
       <AnimatePresence mode="popLayout">
         {!isHomePage && (
           <motion.div
-            className="antialiased h-[44px] flex items-center justify-center rounded-full border border-gray-200 bg-white px-4 py-2 font-medium text-black transition-colors hover:bg-[#F9F9F8] focus-visible:shadow-focus-ring-button md:font-medium cursor-pointer"
-            onClick={() => {/* Add your logic here */}}
-            initial={{ opacity: 0, x: -20 }}
+            className="h-[44px] flex items-center justify-center mr-2 rounded-full border border-gray-200 bg-white px-4 py-2 font-medium text-black transition-colors hover:bg-[#F9F9F8] focus-visible:shadow-focus-ring-button md:font-medium cursor-pointer"
+            initial={{ opacity: 0, x: 30 }}
             animate={{ opacity: 1, x: 0 }}
-            exit={{ opacity: 0, x: -20 }}
+            exit={{ opacity: 0, x: 30 }}
+            transition={{ type: "spring"}}
             layout
           >
             <Link href="/">
@@ -53,7 +59,7 @@ export default function FamilyDrawer() {
       </AnimatePresence>
 
       <motion.div
-        className="antialiased h-[44px] flex items-center justify-center rounded-full border border-gray-200 bg-white px-4 py-2 font-medium text-black transition-colors hover:bg-[#F9F9F8] focus-visible:shadow-focus-ring-button md:font-medium cursor-pointer"
+        className="h-[44px] flex items-center justify-center rounded-full border border-gray-200 bg-white px-4 py-2 font-medium text-black transition-colors hover:bg-[#F9F9F8] focus-visible:shadow-focus-ring-button md:font-medium cursor-pointer"
         onClick={() => setIsOpen(true)}
         layout
       >
@@ -61,11 +67,17 @@ export default function FamilyDrawer() {
       </motion.div>
     </motion.div>
 
-      <Drawer.Root open={isOpen} onOpenChange={setIsOpen}>
+      <Drawer.Root 
+        open={isOpen} 
+        onOpenChange={(open) => {
+          setIsOpen(open);
+          if (!open) setView("default");
+        }}
+      >
         <Drawer.Portal>
           <Drawer.Overlay
             className="fixed inset-0 z-10 bg-black/30"
-            onClick={() => setIsOpen(false)}
+            onClick={handleCloseDrawer}
           />
           <Drawer.Content
             asChild
@@ -84,6 +96,7 @@ export default function FamilyDrawer() {
                 <button
                   data-vaul-no-drag=""
                   className="absolute right-8 top-7 z-10 flex h-8 w-8 items-center justify-center rounded-full bg-[#F7F8F9] text-[#949595] transition-transform focus:scale-95 focus-visible:shadow-focus-ring-button active:scale-75"
+                  onClick={handleCloseDrawer}
                 >
                   <CloseIcon />
                 </button>

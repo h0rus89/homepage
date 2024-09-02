@@ -60,7 +60,7 @@ export default function RootLayout({
       )}
     >
       <body className="antialiased">
-        <main className="max-w-2xl mx-auto px-2 pt-32 md:px-0">
+        <main className="max-w-2xl mx-auto px-2 mt-4 md:px-0">
           <FamilyDrawer />
           {children}
 
