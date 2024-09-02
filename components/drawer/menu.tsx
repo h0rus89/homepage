@@ -1,17 +1,23 @@
 "use client";
 
-import { useMemo, useState, useRef } from "react";
+import { useMemo, useState } from "react";
 import { Drawer } from "vaul";
 import useMeasure from "react-use-measure";
 import { motion, AnimatePresence } from "framer-motion";
 import { DefaultView, Gemeinsam, Aktiv, Stark } from "@/components/drawer/helper";
 import { CloseIcon } from "@/components/drawer/icons";
+import { Home } from "lucide-react";
+import Link from "next/link";
+import { usePathname } from 'next/navigation';
 
 
 export default function FamilyDrawer() {
   const [isOpen, setIsOpen] = useState(false);
   const [view, setView] = useState("default");
   const [elementRef, bounds] = useMeasure();
+
+  const pathname = usePathname();
+  const isHomePage = pathname === '/';
 
   const content = useMemo(() => {
     switch (view) {
@@ -28,12 +34,33 @@ export default function FamilyDrawer() {
 
   return (
     <>
-      <button
-        className="fixed top-8 left-1/2 antialiased -translate-y-1/2 -translate-x-1/2 h-[44px] rounded-full border border-gray-200 bg-white px-4 py-2 font-medium text-black transition-colors hover:bg-[#F9F9F8] focus-visible:shadow-focus-ring-button md:font-medium"
+      <motion.div className="fixed top-8 flex space-x-4" layout>
+      <AnimatePresence mode="popLayout">
+        {!isHomePage && (
+          <motion.div
+            className="antialiased h-[44px] flex items-center justify-center rounded-full border border-gray-200 bg-white px-4 py-2 font-medium text-black transition-colors hover:bg-[#F9F9F8] focus-visible:shadow-focus-ring-button md:font-medium cursor-pointer"
+            onClick={() => {/* Add your logic here */}}
+            initial={{ opacity: 0, x: -20 }}
+            animate={{ opacity: 1, x: 0 }}
+            exit={{ opacity: 0, x: -20 }}
+            layout
+          >
+            <Link href="/">
+              <Home />
+            </Link>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      <motion.div
+        className="antialiased h-[44px] flex items-center justify-center rounded-full border border-gray-200 bg-white px-4 py-2 font-medium text-black transition-colors hover:bg-[#F9F9F8] focus-visible:shadow-focus-ring-button md:font-medium cursor-pointer"
         onClick={() => setIsOpen(true)}
+        layout
       >
         Menü
-      </button>
+      </motion.div>
+    </motion.div>
+
       <Drawer.Root open={isOpen} onOpenChange={setIsOpen}>
         <Drawer.Portal>
           <Drawer.Overlay

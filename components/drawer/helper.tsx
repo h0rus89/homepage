@@ -1,4 +1,3 @@
-import React, { useEffect, useRef, useState } from "react";
 import clsx from "clsx";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area"
 
@@ -71,7 +70,7 @@ export function SecondaryButton({ children, onClick, className }) {
 export function Header({ title }) {
   return (
     <header className="mt-[21px]">
-      <h2 className="mt-2.5 text-[22px] font-semibold text-[#222222] md:font-medium">
+      <h2 className="mt-2.5 text-[22px] font-semibold text-[#222222] md:font-medium pb-6 border-b border-[#F5F5F5]">
         {title}
       </h2>
     </header>
@@ -79,80 +78,16 @@ export function Header({ title }) {
 }
 
 function ScrollableList({ children }: { children: React.ReactNode }) {
-  const [atEnd, setAtEnd] = useState(false);
-  const [atStart, setAtStart] = useState(true);
-  const scrollRef = useRef<HTMLUListElement>(null);
-
-  useEffect(() => {
-    const handleScroll = () => {
-      if (scrollRef.current) {
-        const { scrollTop, scrollHeight, clientHeight } = scrollRef.current;
-        setAtEnd(scrollTop + clientHeight >= scrollHeight);
-        setAtStart(scrollTop === 0);
-      }
-    };
-
-    const currentRef = scrollRef.current;
-    if (currentRef) {
-      currentRef.addEventListener('scroll', handleScroll);
-    }
-
-    return () => {
-      if (currentRef) {
-        currentRef.removeEventListener('scroll', handleScroll);
-      }
-    };
-  }, []);
-
+  
   return (
-    <div className="relative">
-      {!atStart && (
-        <div className="absolute top-0 left-0 right-0 flex justify-center h-8 bg-gradient-to-b from-white to-transparent pointer-events-none">
-          <div className="bounce-animation">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-              className="w-6 h-6 text-gray-500"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M5 15l7-7 7 7"
-              />
-            </svg>
-          </div>
-        </div>
-      )}
-      <ul
-        ref={scrollRef}
-        className="mx-8 px-8 space-y-4 border-t border-[#F5F5F5] max-h-[50vh] overflow-y-auto pr-2 no-scrollbar"
-      >
+    <ScrollArea className="relative">
+      <ul className="pb-8 space-y-4  pt-6 max-h-[50vh] overflow-y-auto pr-2 no-scrollbar">
         {children}
       </ul>
-      {!atEnd && (
-        <div className="absolute bottom-0 left-0 right-0 flex justify-center h-8 bg-gradient-to-t from-white to-transparent pointer-events-none">
-          <div className="bounce-animation">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-              className="w-6 h-6 text-gray-500"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M19 9l-7 7-7-7"
-              />
-            </svg>
-          </div>
-        </div>
-      )}
-    </div>
+      <div className="absolute bottom-0 left-0 right-0 flex justify-center h-8 bg-gradient-to-t from-white to-transparent pointer-events-none"></div>
+      <div className="absolute top-0 left-0 right-0 flex justify-center h-8 bg-gradient-to-b from-white to-transparent pointer-events-none"></div>
+    
+    </ScrollArea>
   );
 }
 
@@ -161,18 +96,15 @@ export function Gemeinsam({ setView }) {
     <div>
       <div className="px-2">
         <Header title="Gemeinsam" />
-        <ScrollArea>
-        <ul className="mt-6 space-y-4 border-t border-[#F5F5F5] pt-6 max-h-[50vh] overflow-y-auto pr-2">
+        <ScrollableList>
           {menuItems.gemeinsam.map((item, index) => (
             <li key={index} className="flex items-center gap-3 text-[15px] font-semibold text-[#999999] md:font-medium">
               {item}
             </li>
           ))}
-          </ul>
-          <ScrollBar className="hidden" />
-        </ScrollArea>
+        </ScrollableList>
       </div>
-      <div className="mt-7 flex gap-4">
+      <div className="mt-4 flex gap-4">
         <SecondaryButton
           onClick={() => setView("default")}
           className="bg-[#F0F2F4] text-[#222222]"
@@ -203,7 +135,7 @@ export function Aktiv({ setView }) {
           ))}
         </ScrollableList>
       </div>
-      <div className="mt-7 flex gap-4">
+      <div className="mt-4 flex gap-4">
         <SecondaryButton
           onClick={() => setView("default")}
           className="bg-[#F0F2F4] text-[#222222]"
@@ -234,7 +166,7 @@ export function Stark({ setView }) {
           ))}
         </ScrollableList>
       </div>
-      <div className="mt-7 flex gap-4">
+      <div className="mt-4 flex gap-4">
         <SecondaryButton
           onClick={() => setView("default")}
           className="bg-[#F0F2F4] text-[#222222]"
