@@ -8,6 +8,7 @@
     "setup": "node ./setup.mjs"
   },
   "dependencies": {
+    "@radix-ui/react-dialog": "^1.1.1",
     "@radix-ui/react-slot": "^1.1.0",
     "@tailwindcss/typography": "^0.5.14",
     "@types/node": "22.2.0",
