@@ -2,8 +2,6 @@ import { Upcoming } from '@/components/upcoming';
 import { fetchEvents } from '@/lib/events';
 import { startOfMonth, endOfMonth } from 'date-fns';
 
-export const revalidate = 24*60*60
-
 export default async function EventsPage() {
   const currentDate = new Date();
   const initialEvents = await fetchEvents(startOfMonth(currentDate), endOfMonth(currentDate));
