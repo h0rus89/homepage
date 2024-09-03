@@ -4,6 +4,7 @@ import { DynamicFlipWords } from "@/components/ac/dynamicFlipWords";
 import { getBlogPosts } from "@/lib/blog";
 import Image from "next/image";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
+import SkeletonCarousel from "@/components/SkeletonCarousel";
 
 export default function Page() {
   const words = ["gemeinsam", "aktiv", "stark"];
@@ -95,6 +96,7 @@ export default function Page() {
         hier gehts zum <Link href="/cal">Kalender</Link>
       </p>
       </div>
+      <SkeletonCarousel />
     </section>
     
   );
