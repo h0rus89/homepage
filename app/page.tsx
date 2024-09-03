@@ -25,7 +25,7 @@ export default function Page() {
 
   return (
     <section>
-      <div className="mt-24 flex flex-col justify-center items-center px-4">
+      <div className="mt-12 flex flex-col justify-center items-center px-4">
       <div className="mb-4">
         <Logo className="size-36 h-auto" />
       </div>
