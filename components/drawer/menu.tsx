@@ -1,17 +1,62 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { Drawer } from "vaul";
 import useMeasure from "react-use-measure";
 import { motion, AnimatePresence } from "framer-motion";
 import { DefaultView, Gemeinsam, Aktiv, Stark } from "@/components/drawer/helper";
 import { CloseIcon } from "@/components/drawer/icons";
-import { Home } from "lucide-react";
+import { ArrowLeft, Home } from "lucide-react";
 import Link from "next/link";
-import { usePathname } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import { Button } from "@/components/ui/button";
 
+interface ButtonProps {
+  onClick?: () => void;
+  href?: string;
+  icon: React.ReactNode;
+  label: string;
+}
+
+const IconButton = ({ onClick, href, icon, label }: ButtonProps) => (
+  <Button
+    variant="outline"
+    size="icon"
+    onClick={onClick}
+    className="h-[44px] w-[44px] rounded-full border border-gray-200 bg-white text-black transition-colors hover:bg-[#F9F9F8] focus-visible:shadow-focus-ring-button"
+  >
+    {href ? <Link href={href}>{icon}</Link> : icon}
+    <span className="sr-only">{label}</span>
+  </Button>
+);
+
+const buttonVariants = {
+  hidden: { width: 0, opacity: 0, x: -20, scale: 0 },
+  visible: { 
+    width: 'auto', 
+    opacity: 1, 
+    x: 0, 
+    scale: 1, 
+    transition: { 
+      type: "spring",
+      stiffness: 260,
+      damping: 20
+    } 
+  },
+  exit: { 
+    width: 0,
+    opacity: 0, 
+    x: -20, 
+    scale: 0, 
+    transition: { 
+      duration: 0.2 
+    } 
+  }
+};
+
 export default function FamilyDrawer() {
+  const router = useRouter();
+  const [canGoBack, setCanGoBack] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
   const [view, setView] = useState("default");
   const [elementRef, bounds] = useMeasure();
@@ -19,60 +64,77 @@ export default function FamilyDrawer() {
   const pathname = usePathname();
   const isHomePage = pathname === '/';
 
-  // Funktion zum Schließen des Drawers
   const handleCloseDrawer = () => {
     setIsOpen(false);
     setView("default");
   };
 
-  const content = useMemo(() => {
-    switch (view) {
-      case "default":
-        return <DefaultView setView={setView} />;
-      case "stark":
-        return <Stark setView={setView} handleCloseDrawer={handleCloseDrawer} />;
-      case "aktiv":
-        return <Aktiv setView={setView} handleCloseDrawer={handleCloseDrawer} />;
-      case "gemeinsam":
-        return <Gemeinsam setView={setView} handleCloseDrawer={handleCloseDrawer} />;
+  const checkCanGoBack = useCallback(() => {
+    if (typeof window !== 'undefined') {
+      const previousPage = document.referrer;
+      const currentOrigin = window.location.origin;
+      setCanGoBack(previousPage.startsWith(currentOrigin));
     }
+  }, []);
+
+  useEffect(() => {
+    checkCanGoBack();
+  }, [pathname, checkCanGoBack]);
+
+  const content = useMemo(() => {
+    const views = {
+      default: <DefaultView setView={setView} />,
+      stark: <Stark setView={setView} handleCloseDrawer={handleCloseDrawer} />,
+      aktiv: <Aktiv setView={setView} handleCloseDrawer={handleCloseDrawer} />,
+      gemeinsam: <Gemeinsam setView={setView} handleCloseDrawer={handleCloseDrawer} />,
+    };
+    return views[view as keyof typeof views];
   }, [view, handleCloseDrawer]);
+
 
   return (
     <>
-      <motion.div className="sticky top-0 flex items-center justify-center" layout>
-        <AnimatePresence mode="popLayout">
-          {!isHomePage && (
-            <motion.div
-              className="mr-2"
-              initial={{ opacity: 0, x: 30 }}
-              animate={{ opacity: 1, x: 0 }}
-              exit={{ opacity: 0, x: 30 }}
-              transition={{ type: "spring"}}
-              layout
-            >
-              <Button
-                variant="outline"
-                size="icon"
-                asChild
-                className="h-[44px] w-[44px] rounded-full border border-gray-200 bg-white text-black transition-colors hover:bg-[#F9F9F8] focus-visible:shadow-focus-ring-button"
+      <div className="fixed top-0 left-0 right-0 flex justify-center p-4">
+        <div className="flex items-center">
+          <AnimatePresence initial={false}>
+            {canGoBack && (
+              <motion.div
+                key="back"
+                variants={buttonVariants}
+                initial="hidden"
+                animate="visible"
+                exit="exit"
+                className="mr-2"
               >
-                <Link href="/">
-                  <Home className="h-5 w-5" />
-                </Link>
-              </Button>
-            </motion.div>
-          )}
-        </AnimatePresence>
+                <IconButton onClick={() => router.back()} icon={<ArrowLeft className="size-5" />} label="Back" />
+              </motion.div>
+            )}
+          </AnimatePresence>
+        
+          <AnimatePresence initial={false}>
+            {!isHomePage && (
+              <motion.div
+                key="home"
+                variants={buttonVariants}
+                initial="hidden"
+                animate="visible"
+                exit="exit"
+                className="mr-2"
+              >
+                <IconButton href="/" icon={<Home className="size-5" />} label="Home" />
+              </motion.div>
+            )}
+          </AnimatePresence>
 
-        <Button
-          variant="outline"
-          onClick={() => setIsOpen(true)}
-          className="h-[44px] rounded-full border border-gray-200 bg-white px-4 py-2 font-medium text-black transition-colors hover:bg-[#F9F9F8] focus-visible:shadow-focus-ring-button md:font-medium"
-        >
-          Menü
-        </Button>
-      </motion.div>
+          <Button
+            variant="outline"
+            onClick={() => setIsOpen(true)}
+            className="h-[44px] rounded-full border border-gray-200 bg-white px-4 py-2 font-medium text-black transition-colors hover:bg-[#F9F9F8] focus-visible:shadow-focus-ring-button md:font-medium"
+          >
+            Menü
+          </Button>
+        </div>
+      </div>
 
       <Drawer.Root 
         open={isOpen} 

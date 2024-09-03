@@ -12,7 +12,7 @@ async function MdImage(props) {
   const image = sharp(imagePath);
   const metadata = await image.metadata();
   // Änderung zum öffentlichen Verzeichnis
-  return <Image src={`/images/${props.src}`} alt={props.alt} width={metadata.width} height={metadata.height}/>;
+  return <Image src={`/images/${props.src}`} alt={props.alt} width={metadata.width} height={metadata.height} className='rounded-md'/>;
 }
 
 function Table({ data }) {
