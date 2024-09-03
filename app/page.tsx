@@ -28,7 +28,7 @@ export default function Page() {
       <div className="mb-4">
         <Logo className="size-36 h-auto" />
       </div>
-      <div className="text-4xl mx-auto font-normal text-neutral-600 dark:text-neutral-400">
+      <div className="text-4xl mx-auto font-normal text-neutral-600">
         Graf-Anton-Schule <br />
       </div>
       <div className="text-4xl mx-auto font-normal">
@@ -49,10 +49,10 @@ export default function Page() {
         <ScrollBar orientation="horizontal" />
       </ScrollArea>
     <div className="mt-8">
-      <p className="prose prose-neutral dark:prose-invert ">
+      <p className="prose prose-neutral">
         hier gehts zum <Link href="/blog">Blog</Link>
       </p>
-      <p className="prose prose-neutral dark:prose-invert">
+      <p className="prose prose-neutral">
         hier gehts zum <Link href="/cal">Kalender</Link>
       </p>
       </div>

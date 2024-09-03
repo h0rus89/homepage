@@ -30,7 +30,7 @@ export default function BlogPage() {
             href={`/blog/${post.slug}`}
           >
             <div className="w-full flex flex-col">
-              <p className="text-neutral-900 dark:text-neutral-100 tracking-tight flex">
+              <p className="text-neutral-900 tracking-tight flex">
                 <span className="text-gray-400 w-24 flex-shrink-0">{post.metadata.date}</span>
                 <span>{post.metadata.title}</span>
               </p>
