@@ -1,13 +1,28 @@
 import Link from "next/link";
 import { FlipWords } from "@/components/ac/flip-words";
+import { BlogPostCarousel } from "@/components/BlogPostCarousel";
+import { getBlogPosts } from "@/lib/blog";
+import Image from "next/image";
 
-export default function Page() {
+export default async function Page() {
   const words = ["gemeinsam", "aktiv", "stark"];
   const colors = ["text-pink-500", "text-yellow-500", "text-lime-500"];
+  let latestPosts = getBlogPosts().sort((a, b) => {
+    if (
+      new Date(a.metadata.date) > new Date(b.metadata.date)
+    ) {
+      return -1;
+    }
+    return 1;
+  }).slice(0, 5).map(post => ({
+    id: post.slug,
+    title: post.metadata.title,
+    imageUrl: `/images/${post.slug}-1.jpg`,
+    ...post
+  }));
 
   return (
     <section>
-      <h1 className="font-medium text-2xl mb-8 tracking-tighter">Startseite</h1>
       <div className="mt-24 flex flex-col justify-center items-center px-4">
       <div className="mb-4">
         <svg
@@ -41,7 +56,33 @@ export default function Page() {
           colors={colors}
         /> 
       </div>
-      <div className="mt-24">
+      
+    </div>
+    <div className="mt-20 flex flex-row gap-4 overflow-x-auto pb-4">
+      {[1, 2, 3].map((index) => (
+        <div
+          key={index}
+          className="rounded-3xl bg-gray-100 dark:bg-neutral-900 h-80 w-72 md:h-[30rem] md:w-80 flex-shrink-0 overflow-hidden flex flex-col items-start justify-start relative z-10"
+        >
+          <div className="absolute h-full top-0 inset-x-0 bg-gradient-to-b from-black/50 via-transparent to-transparent z-30 pointer-events-none" />
+          <div className="relative z-40 p-6">
+            <p className="text-white text-sm md:text-base font-medium font-sans text-left">
+              26.08.2024
+            </p>
+            <p className="text-white text-lg md:text-2xl font-semibold max-w-xs text-left [text-wrap:balance] font-sans mt-2">
+              Herzlich Willkommen
+            </p>
+          </div>
+          <Image
+            src={"/images/herzlich-willkommen-1.jpg"}
+            alt={"Willkommensbild"}
+            fill
+            className="object-cover absolute z-10 inset-0"
+          />
+        </div>
+      ))}
+    </div>
+    <div className="mt-8">
       <p className="prose prose-neutral dark:prose-invert ">
         hier gehts zum <Link href="/blog">Blog</Link>
       </p>
@@ -49,8 +90,7 @@ export default function Page() {
         hier gehts zum <Link href="/cal">Kalender</Link>
       </p>
       </div>
-      
-    </div>
     </section>
+    
   );
 }
