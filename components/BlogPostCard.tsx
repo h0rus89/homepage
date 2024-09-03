@@ -33,7 +33,7 @@ export function BlogPostCard({ post, priority }: BlogPostCardProps) {
         src={post.imageUrl}
         alt={post.metadata.title}
         fill
-        sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+        sizes="(max-width: 768px) 288px, 320px"
         className="object-cover"
         priority={priority}
       />
