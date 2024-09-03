@@ -2,17 +2,10 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { MDXRemote } from 'next-mdx-remote/rsc';
 import React from 'react';
+import { AdaptiveImage } from '@/components/AdaptiveImage';
 
-import path from "node:path";
-import sharp from "sharp";
-
-
-async function MdImage(props) {
-  const imagePath = path.join(process.cwd(), "public", "images", props.src);
-  const image = sharp(imagePath);
-  const metadata = await image.metadata();
-  // Änderung zum öffentlichen Verzeichnis
-  return <Image src={`/images/${props.src}`} alt={props.alt} width={metadata.width} height={metadata.height} className='rounded-md'/>;
+function MdImage(props) {
+  return <AdaptiveImage src={`/images/${props.src}`} alt={props.alt} className='rounded-md' />;
 }
 
 function Table({ data }) {
