@@ -5,22 +5,23 @@ import { cn } from "@/lib/utils";
 
 export const FlipWords = ({
   words,
+  colors,
   duration = 3000,
   className,
 }: {
   words: string[];
+  colors: string[];
   duration?: number;
   className?: string;
 }) => {
-  const [currentWord, setCurrentWord] = useState(words[0]);
+  const [currentIndex, setCurrentIndex] = useState(0);
   const [isAnimating, setIsAnimating] = useState<boolean>(false);
 
-  // thanks for the fix Julian - https://github.com/Julian-AT
   const startAnimation = useCallback(() => {
-    const word = words[words.indexOf(currentWord) + 1] || words[0];
-    setCurrentWord(word);
+    const nextIndex = (currentIndex + 1) % words.length;
+    setCurrentIndex(nextIndex);
     setIsAnimating(true);
-  }, [currentWord, words]);
+  }, [currentIndex, words.length]);
 
   useEffect(() => {
     if (!isAnimating)
@@ -59,12 +60,13 @@ export const FlipWords = ({
         }}
         className={cn(
           "z-10 inline-block relative text-left text-neutral-900 dark:text-neutral-100 px-2",
-          className
+          className,
+          colors[currentIndex]
         )}
-        key={currentWord}
+        key={words[currentIndex]}
       >
         {/* edit suggested by Sajal: https://x.com/DewanganSajal */}
-        {currentWord.split(" ").map((word, wordIndex) => (
+        {words[currentIndex].split(" ").map((word, wordIndex) => (
           <motion.span
             key={word + wordIndex}
             initial={{ opacity: 0, y: 10, filter: "blur(8px)" }}

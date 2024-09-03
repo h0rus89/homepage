@@ -2,7 +2,7 @@ import './global.css';
 import type { Metadata } from 'next';
 import { GeistSans } from 'geist/font/sans';
 import { GeistMono } from 'geist/font/mono';
-import { Navbar } from '@/components/nav';
+import { Caveat } from 'next/font/google';
 import FamilyDrawer from '@/components/drawer/menu';
 import { Analytics } from '@vercel/analytics/react';
 import { SpeedInsights } from '@vercel/speed-insights/next';
@@ -17,7 +17,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: 'Graf-Anton-Schule',
     description: 'Gemeinschaftsschule des Landkreises Merzig-Wadern',
-    url: 'https://leerob.io',
+    url: 'https://gaswadern.vercel.app',
     siteName: 'Graf-Anton-Schule',
     locale: 'de_DE',
     type: 'website',
@@ -34,14 +34,16 @@ export const metadata: Metadata = {
     },
   },
   twitter: {
-    title: 'Lee Robinson',
+    title: 'Graf-Anton-Schule',
     card: 'summary_large_image',
   },
-  verification: {
-    google: 'eZSdmzAXlLkKhNJzfgwDqWORghxnJ8qR9_CHdAh5-xw',
-    yandex: '14d2e73487fa6c71',
-  },
 };
+
+const caveat = Caveat({ 
+  subsets: ['latin'],
+  display: 'swap',
+  variable: '--font-caveat',
+});
 
 const cx = (...classes) => classes.filter(Boolean).join(' ');
 
@@ -56,7 +58,8 @@ export default function RootLayout({
       className={cx(
         'text-black bg-gray-100 dark:text-white dark:bg-[#111010]',
         GeistSans.variable,
-        GeistMono.variable
+        GeistMono.variable,
+        caveat.variable
       )}
     >
       <body className="antialiased">
