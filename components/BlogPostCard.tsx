@@ -32,10 +32,9 @@ export function BlogPostCard({ post, priority }: BlogPostCardProps) {
       <Image
         src={post.imageUrl}
         alt={post.metadata.title}
-        width={1200}
-        height={800}
+        fill
         sizes="(max-width: 768px) 288px, 320px"
-        className="absolute object-cover w-full h-full"
+        className="object-cover"
         priority={priority}
       />
     </Link>
