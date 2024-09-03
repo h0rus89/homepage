@@ -56,30 +56,18 @@ const buttonVariants = {
 
 export default function FamilyDrawer() {
   const router = useRouter();
-  const [canGoBack, setCanGoBack] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
   const [view, setView] = useState("default");
   const [elementRef, bounds] = useMeasure();
 
   const pathname = usePathname();
   const isHomePage = pathname === '/';
+  const isBlog = pathname.startsWith('/blog/');
 
   const handleCloseDrawer = () => {
     setIsOpen(false);
     setView("default");
   };
-
-  const checkCanGoBack = useCallback(() => {
-    if (typeof window !== 'undefined') {
-      const previousPage = document.referrer;
-      const currentOrigin = window.location.origin;
-      setCanGoBack(previousPage.startsWith(currentOrigin));
-    }
-  }, []);
-
-  useEffect(() => {
-    checkCanGoBack();
-  }, [pathname, checkCanGoBack]);
 
   const content = useMemo(() => {
     const views = {
@@ -97,7 +85,7 @@ export default function FamilyDrawer() {
       <div className="fixed top-0 left-0 right-0 flex justify-center p-4">
         <div className="flex items-center">
           <AnimatePresence initial={false}>
-            {canGoBack && (
+            {isBlog && (
               <motion.div
                 key="back"
                 variants={buttonVariants}
@@ -106,7 +94,7 @@ export default function FamilyDrawer() {
                 exit="exit"
                 className="mr-2"
               >
-                <IconButton onClick={() => router.back()} icon={<ArrowLeft className="size-5" />} label="Back" />
+                <IconButton href="/blog" icon={<ArrowLeft className="size-5" />} label="Back" />
               </motion.div>
             )}
           </AnimatePresence>
