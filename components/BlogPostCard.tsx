@@ -1,5 +1,10 @@
-import Image from "next/image";
+import dynamic from 'next/dynamic';
 import Link from "next/link";
+
+const DynamicImage = dynamic(() => import('next/image'), { 
+  loading: () => <div className="animate-pulse bg-gray-300 dark:bg-neutral-700 h-full w-full" />,
+  ssr: false 
+});
 
 interface BlogPostCardProps {
   post: {
@@ -29,7 +34,7 @@ export function BlogPostCard({ post, priority }: BlogPostCardProps) {
           {post.metadata.title}
         </p>
       </div>
-      <Image
+      <DynamicImage
         src={post.imageUrl}
         alt={post.metadata.title}
         fill
