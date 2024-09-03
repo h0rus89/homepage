@@ -4,7 +4,7 @@ import { getBlogPosts } from "@/lib/blog";
 import Image from "next/image";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 
-export default async function Page() {
+export default function Page() {
   const words = ["gemeinsam", "aktiv", "stark"];
   const colors = ["text-pink-500", "text-yellow-500", "text-lime-500"];
   let latestPosts = getBlogPosts().sort((a, b) => {
