@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { FlipWords } from "@/components/ac/flip-words";
+import { DynamicFlipWords } from "@/components/ac/dynamicFlipWords";
 import { getBlogPosts } from "@/lib/blog";
 import Image from "next/image";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
@@ -50,7 +51,7 @@ export default function Page() {
         Graf-Anton-Schule <br />
       </div>
       <div className="text-4xl mx-auto font-normal">
-        <FlipWords 
+        <DynamicFlipWords 
           className="font-caveat font-black tracking-widest" 
           words={words}
           colors={colors}
