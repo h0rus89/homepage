@@ -1,5 +1,10 @@
 import Link from "next/link";
-import { FlipWords } from "@/components/ac/flip-words";
+import dynamic from 'next/dynamic';
+import { Suspense } from 'react';
+const DynamicFlipWords = dynamic(() => import('@/components/ac/flip-words').then(mod => mod.FlipWords), {
+  loading: () => <p>Laden...</p>
+});
+// import { FlipWords } from "@/components/ac/flip-words";
 import { getBlogPosts } from "@/lib/blog";
 import Image from "next/image";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
@@ -50,17 +55,19 @@ export default function Page() {
         Graf-Anton-Schule <br />
       </div>
       <div className="text-4xl mx-auto font-normal">
-        <FlipWords 
+      <Suspense fallback={<p>Laden...</p>}>
+        <DynamicFlipWords 
           className="font-caveat font-black tracking-widest" 
           words={words}
           colors={colors}
-        /> 
+        />
+      </Suspense>
       </div>
       
     </div>
     <ScrollArea className="mt-20 w-full">
       <div className="flex flex-row gap-4 pb-4">
-        {latestPosts.map((post) => (
+        {latestPosts.map((post, index) => (
           <Link
             key={post.id}
             href={`/blog/${post.slug}`}
@@ -79,7 +86,9 @@ export default function Page() {
               src={post.imageUrl}
               alt={post.metadata.title}
               fill
+              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
               className="object-cover absolute z-10 inset-0"
+              priority={index === 0}
             />
           </Link>
         ))}
