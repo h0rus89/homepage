@@ -1,5 +1,6 @@
 import clsx from "clsx";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
+import { ChevronLeft } from "lucide-react";
 
 const menuItems = {
   gemeinsam: [
@@ -41,6 +42,7 @@ const menuItems = {
 
 interface HeaderProps {
   title: string;
+  setView: (view: string) => void;
 }
 
 interface ContentProps {
@@ -79,13 +81,20 @@ export function SecondaryButton({ children, onClick, className }) {
   );
 }
 
-export function Header({ title }: HeaderProps) {
+export function Header({ title, setView }: HeaderProps) {
   return (
     <header className="mb-4 flex flex-shrink-0 h-[72px] items-center border-b border-[#F7F7F7]">
-        <h2 className="text-[19px] font-semibold text-[#222222] md:font-medium">
-          {title}
-        </h2>
-      </header>
+      <button
+        onClick={() => setView("default")}
+        className="mr-2 p-2 rounded-full hover:bg-gray-100 transition-colors"
+        aria-label="Zurück zum Hauptmenü"
+      >
+        <ChevronLeft className="w-6 h-6 text-[#222222]" />
+      </button>
+      <h2 className="text-[19px] font-semibold text-[#222222] md:font-medium">
+        {title}
+      </h2>
+    </header>
   );
 }
 
@@ -129,9 +138,9 @@ function Footer({ setView, handleCloseDrawer }: FooterProps) {
 export function Gemeinsam({ setView, handleCloseDrawer }) {
   return (
     <div className="flex max-h-[80vh] flex-col px-2">
-      <Header title="Gemeinsam" />
+      <Header title="Gemeinsam" setView={setView} />
       <Content items={menuItems.gemeinsam} />
-      <Footer setView={setView} handleCloseDrawer={handleCloseDrawer} />
+      
     </div>
   );
 }
@@ -139,9 +148,9 @@ export function Gemeinsam({ setView, handleCloseDrawer }) {
 export function Aktiv({ setView, handleCloseDrawer }) {
   return (
     <div className="flex max-h-[80vh] flex-col px-2">
-      <Header title="Aktiv" />
+      <Header title="Aktiv" setView={setView} />
       <Content items={menuItems.aktiv} />
-      <Footer setView={setView} handleCloseDrawer={handleCloseDrawer} />
+      
     </div>
   );
 }
@@ -149,9 +158,9 @@ export function Aktiv({ setView, handleCloseDrawer }) {
 export function Stark({ setView, handleCloseDrawer }) {
   return (
     <div className="flex max-h-[80vh] flex-col px-2">
-      <Header title="Stark" />
+      <Header title="Stark" setView={setView} />
       <Content items={menuItems.stark} />
-      <Footer setView={setView} handleCloseDrawer={handleCloseDrawer} />
+      
     </div>
   );
 }
