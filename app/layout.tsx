@@ -7,6 +7,9 @@ import FamilyDrawer from '@/components/drawer/menu';
 import { Analytics } from '@vercel/analytics/react';
 import { SpeedInsights } from '@vercel/speed-insights/next';
 
+import { cn } from "@/lib/utils";
+import DotPattern from "@/components/ac/DotPattern";
+
 export const metadata: Metadata = {
   metadataBase: new URL('https://leerob.io'),
   title: {
@@ -56,17 +59,22 @@ export default function RootLayout({
     <html
       lang="en"
       className={cx(
-        'text-black bg-gray-100',
+        'text-black bg-gray-100 relative',
         GeistSans.variable,
         GeistMono.variable,
         caveat.variable
       )}
     >
       <body className="antialiased">
-        <main className="max-w-2xl mx-auto px-2 md:px-0 pt-24 pb-8">
+        <DotPattern
+          className={cn(
+            "fixed inset-0 [mask-image:radial-gradient(50vw_circle_at_center,white,transparent)] h-full w-full -z-10",
+          )}
+        />
+        <main className="relative max-w-2xl mx-auto px-2 md:px-0 pt-24 pb-8">
           <FamilyDrawer />
           {children}
-
+          
           <Analytics />
           <SpeedInsights />
         </main>
