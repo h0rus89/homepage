@@ -23,7 +23,7 @@ const IconButton = ({ onClick, href, icon, label }: ButtonProps) => (
     variant="outline"
     size="icon"
     onClick={onClick}
-    className="h-[44px] w-[44px] rounded-full border border-gray-200 bg-white text-black transition-colors hover:bg-[#F9F9F8] focus-visible:shadow-focus-ring-button"
+    className="h-11 w-11 rounded-full border border-gray-200 bg-white text-black transition-colors hover:bg-gray-50 focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
   >
     {href ? <Link href={href}>{icon}</Link> : icon}
     <span className="sr-only">{label}</span>
@@ -117,7 +117,7 @@ export default function FamilyDrawer() {
           <Button
             variant="outline"
             onClick={() => setIsOpen(true)}
-            className="h-[44px] rounded-full border border-gray-200 bg-white px-4 py-2 font-medium text-black transition-colors hover:bg-[#F9F9F8] focus-visible:shadow-focus-ring-button md:font-medium"
+            className="h-11 rounded-full border border-gray-200 bg-white px-4 py-2 font-medium text-black transition-colors hover:bg-gray-50 focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2 md:font-medium"
           >
             Menü
           </Button>
@@ -138,7 +138,7 @@ export default function FamilyDrawer() {
           />
           <Drawer.Content
             asChild
-            className="fixed inset-x-4 bottom-4 z-10 mx-auto max-w-[361px] overflow-hidden rounded-[36px] bg-[#FEFFFE] outline-none md:mx-auto md:w-full"
+            className="fixed inset-x-4 bottom-4 z-10 mx-auto max-w-[361px] overflow-hidden rounded-3xl bg-white outline-none md:mx-auto md:w-full"
           >
             <motion.div
               animate={{
@@ -152,7 +152,7 @@ export default function FamilyDrawer() {
               <Drawer.Close asChild>
                 <button
                   data-vaul-no-drag=""
-                  className="absolute right-8 top-7 z-10 flex h-8 w-8 items-center justify-center rounded-full bg-[#F7F8F9] text-[#949595] transition-transform focus:scale-95 focus-visible:shadow-focus-ring-button active:scale-75"
+                  className="absolute right-8 top-7 z-10 flex h-8 w-8 items-center justify-center rounded-full bg-gray-100 text-gray-500 transition-transform focus:scale-95 focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2 active:scale-75"
                   onClick={handleCloseDrawer}
                 >
                   <CloseIcon />

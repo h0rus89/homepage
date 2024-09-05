@@ -58,7 +58,7 @@ export function PrimaryButton({ children, onClick }) {
   return (
     <button
       data-vaul-no-drag=""
-      className="flex h-12 w-full items-center gap-[15px] rounded-[16px] bg-[#F7F8F9] px-4 text-[17px] font-semibold text-[#222222] transition-transform focus:scale-95 focus-visible:shadow-focus-ring-button active:scale-95 md:font-medium"
+      className="flex h-12 w-full items-center gap-4 rounded-2xl bg-gray-100 px-4 text-lg font-semibold text-gray-900 transition-transform focus:scale-95 focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2 active:scale-95 md:font-medium"
       onClick={onClick}
     >
       {children}
@@ -71,7 +71,7 @@ export function SecondaryButton({ children, onClick, className }) {
     <button
       data-vaul-no-drag=""
       className={clsx(
-        "flex h-12 w-full items-center justify-center gap-[15px] rounded-full text-center text-[19px] font-semibold transition-transform focus:scale-95 focus-visible:shadow-focus-ring-button active:scale-95 md:font-medium",
+        "flex h-12 w-full items-center justify-center gap-4 rounded-full text-center text-xl font-semibold transition-transform focus:scale-95 focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2 active:scale-95 md:font-medium",
         className
       )}
       onClick={onClick}
@@ -83,15 +83,15 @@ export function SecondaryButton({ children, onClick, className }) {
 
 export function Header({ title, setView }: HeaderProps) {
   return (
-    <header className="mb-4 flex flex-shrink-0 h-[72px] items-center border-b border-[#F7F7F7]">
+    <header className="mb-4 flex flex-shrink-0 h-16 items-center border-b border-gray-100">
       <button
         onClick={() => setView("default")}
         className="mr-2 p-2 rounded-full hover:bg-gray-100 transition-colors"
         aria-label="Zurück zum Hauptmenü"
       >
-        <ChevronLeft className="w-6 h-6 text-[#222222]" />
+        <ChevronLeft className="w-6 h-6 text-gray-900" />
       </button>
-      <h2 className="text-[19px] font-semibold text-[#222222] md:font-medium">
+      <h2 className="text-lg font-semibold text-gray-900 md:font-medium">
         {title}
       </h2>
     </header>
@@ -100,12 +100,12 @@ export function Header({ title, setView }: HeaderProps) {
 
 function Content({ items }: ContentProps) {
   return (
-    <ScrollArea className="relative flex-grow-1">
+    <ScrollArea className="relative flex-grow">
       <ul className="max-h-[70vh] space-y-4 overflow-y-auto">
         {items.map((item, index) => (
           <li
             key={index}
-            className="flex items-center gap-3 text-[15px] font-semibold text-[#999999] md:font-medium"
+            className="flex items-center gap-3 text-sm font-semibold text-gray-500 md:font-medium"
           >
             {item}
           </li>
@@ -121,13 +121,13 @@ function Footer({ setView, handleCloseDrawer }: FooterProps) {
     <div className="mt-4 flex flex-shrink-0 gap-4">
       <SecondaryButton
         onClick={() => setView("default")}
-        className="bg-[#F0F2F4] text-[#222222]"
+        className="bg-gray-100 text-gray-900"
       >
         Zurück
       </SecondaryButton>
       <SecondaryButton
         onClick={handleCloseDrawer}
-        className="bg-[#FF3F40] text-[#FFFFFF]"
+        className="bg-red-500 text-white"
       >
         Schließen
       </SecondaryButton>
@@ -168,8 +168,8 @@ export function Stark({ setView, handleCloseDrawer }) {
 export function DefaultView({ setView }) {
   return (
     <>
-      <header className="mb-4 flex h-[72px] items-center border-b border-[#F7F7F7] pl-2">
-        <h2 className="text-[19px] font-semibold text-[#222222] md:font-medium">
+      <header className="mb-4 flex h-[72px] items-center border-b border-gray-100 pl-2">
+        <h2 className="text-lg font-semibold text-gray-900 md:font-medium">
           Menü
         </h2>
       </header>
