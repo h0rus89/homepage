@@ -31,14 +31,14 @@ export async function BlogPostCard({ post, priority }: BlogPostCardProps) {
           {post.metadata.title}
         </p>
       </div>
-      <AdaptiveImage
+      {/* <AdaptiveImage
         src={post.imageUrl}
         alt={post.metadata.title}
         fill
         sizes="(max-width: 768px) 288px, 320px"
         className="object-cover"
         priority={priority}
-      />
+      /> */}
     </Link>
   );
 }
