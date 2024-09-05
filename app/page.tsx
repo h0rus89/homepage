@@ -5,22 +5,15 @@ import { Logo } from "@/components/logo";
 import { getBlogPosts } from "@/lib/blog";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 
-export default function Page() {
+export default async function Page() {
   const words = ["gemeinsam", "aktiv", "stark"];
   const colors = ["text-pink-500", "text-yellow-500", "text-lime-500"];
-  let latestPosts = getBlogPosts().sort((a, b) => {
-    if (
-      new Date(a.metadata.date) > new Date(b.metadata.date)
-    ) {
+  let latestPosts = (await getBlogPosts()).sort((a, b) => {
+    if (new Date(a.metadata.date) > new Date(b.metadata.date)) {
       return -1;
     }
     return 1;
-  }).slice(0, 5).map(post => ({
-    id: post.slug,
-    title: post.metadata.title,
-    imageUrl: `/images/${post.slug}-1.jpg`,
-    ...post
-  }));
+  }).slice(0, 5);
 
   return (
     <section>
@@ -43,7 +36,7 @@ export default function Page() {
     <ScrollArea className="mt-20 w-full">
         <div className="flex flex-row gap-4 pb-4">
           {latestPosts.map((post, index) => (
-            <BlogPostCard key={post.id} post={post} priority={index === 0} />
+            <BlogPostCard key={post.slug} post={post} priority={index === 0} />
           ))}
         </div>
         <ScrollBar orientation="horizontal" />
