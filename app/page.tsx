@@ -40,14 +40,14 @@ export default function Page() {
       </div>
       
     </div>
-    <ScrollArea className="mt-20 w-full">
+    {/* <ScrollArea className="mt-20 w-full">
         <div className="flex flex-row gap-4 pb-4">
           {latestPosts.map((post, index) => (
             <BlogPostCard key={post.id} post={post} priority={index === 0} />
           ))}
         </div>
         <ScrollBar orientation="horizontal" />
-      </ScrollArea>
+      </ScrollArea> */}
     <div className="mt-8">
       <p className="prose prose-neutral">
         hier gehts zum <Link href="/blog">Blog</Link>
