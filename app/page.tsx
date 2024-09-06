@@ -6,7 +6,7 @@ import { getBlogPosts } from "@/lib/blog";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 
 export default function Page() {
-  const words = ["gemeinsam", "aktiv", "stark"];
+  {/*const words = ["gemeinsam", "aktiv", "stark"];
   const colors = ["text-pink-500", "text-yellow-500", "text-lime-500"];
   const latestPosts = getBlogPosts().sort((a, b) => {
     if (
@@ -20,7 +20,7 @@ export default function Page() {
     title: post.metadata.title,
     imageUrl: `/images/${post.slug}-1.jpg`,
     ...post
-  }));
+  })); */}
 
   return (
     <section>
