@@ -5,15 +5,22 @@ import { Logo } from "@/components/logo";
 import { getBlogPosts } from "@/lib/blog";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 
-export default async function Page() {
+export default function Page() {
   const words = ["gemeinsam", "aktiv", "stark"];
   const colors = ["text-pink-500", "text-yellow-500", "text-lime-500"];
-  let latestPosts = (await getBlogPosts()).sort((a, b) => {
-    if (new Date(a.metadata.date) > new Date(b.metadata.date)) {
+  const latestPosts = getBlogPosts().sort((a, b) => {
+    if (
+      new Date(a.metadata.date) > new Date(b.metadata.date)
+    ) {
       return -1;
     }
     return 1;
-  }).slice(0, 5);
+  }).slice(0, 5).map(post => ({
+    id: post.slug,
+    title: post.metadata.title,
+    imageUrl: `/images/${post.slug}-1.jpg`,
+    ...post
+  }));
 
   return (
     <section>
@@ -25,18 +32,18 @@ export default async function Page() {
         Graf-Anton-Schule <br />
       </div>
       <div className="text-4xl mx-auto font-normal">
-        <FlipWords 
+        {/* <FlipWords 
           className="font-caveat font-black tracking-widest" 
           words={words}
           colors={colors}
-        /> 
+        />  */}
       </div>
       
     </div>
     <ScrollArea className="mt-20 w-full">
         <div className="flex flex-row gap-4 pb-4">
           {latestPosts.map((post, index) => (
-            <BlogPostCard key={post.slug} post={post} priority={index === 0} />
+            <BlogPostCard key={post.id} post={post} priority={index === 0} />
           ))}
         </div>
         <ScrollBar orientation="horizontal" />

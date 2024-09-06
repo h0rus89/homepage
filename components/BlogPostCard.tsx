@@ -4,21 +4,19 @@ import { AdaptiveImage } from "./AdaptiveImage";
 
 interface BlogPostCardProps {
   post: {
+    id: string;
     slug: string;
     metadata: {
       date: string;
       title: string;
     };
-    imageMetadata: {
-      src: string;
-      width: number;
-      height: number;
-    };
+    imageUrl: string;
   };
   priority: boolean;
 }
 
-export function BlogPostCard({ post, priority }: BlogPostCardProps) {
+export async function BlogPostCard({ post, priority }: BlogPostCardProps) {
+
   return (
     <Link
       href={`/blog/${post.slug}`}
@@ -34,7 +32,7 @@ export function BlogPostCard({ post, priority }: BlogPostCardProps) {
         </p>
       </div>
       <AdaptiveImage
-        src={post.imageMetadata.src}
+        src={post.imageUrl}
         alt={post.metadata.title}
         fill
         sizes="(max-width: 768px) 288px, 320px"

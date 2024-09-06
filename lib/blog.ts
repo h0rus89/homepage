@@ -1,22 +1,12 @@
 import fs from 'fs';
 import path from 'path';
-import sharp from 'sharp';
 
 type Metadata = {
   title: string;
   date: string;
   summary: string;
+  image?: string;
 };
-
-async function getImageMetadata (slug: string) {
-  const imagePath = path.join(process.cwd(), "public", "images", `${slug}-1.jpg`);
-  const metadata = await sharp(imagePath).metadata();
-  return { 
-    src: `/images/${slug}-1.jpg`,
-    width: metadata.width || 1200, 
-    height: metadata.height || 900
-  }
-}
 
 function parseFrontmatter(fileContent: string) {
   let frontmatterRegex = /---\s*([\s\S]*?)\s*---/;
@@ -29,7 +19,7 @@ function parseFrontmatter(fileContent: string) {
   frontMatterLines.forEach((line) => {
     let [key, ...valueArr] = line.split(': ');
     let value = valueArr.join(': ').trim();
-    value = value.replace(/^['"](.*)['"]$/, '$1'); // Remove quotes
+    value = value.replace(/^['"](.*)['"]$/, '$1');
     metadata[key.trim() as keyof Metadata] = value;
   });
 
@@ -45,21 +35,19 @@ function readMDXFile(filePath) {
   return parseFrontmatter(rawContent);
 }
 
-async function getMDXData(dir) {
+function getMDXData(dir) {
   let mdxFiles = getMDXFiles(dir);
-  return Promise.all(mdxFiles.map(async (file) => {
+  return mdxFiles.map((file) => {
     let { metadata, content } = readMDXFile(path.join(dir, file));
     let slug = path.basename(file, path.extname(file));
-    const imageMetadata = await getImageMetadata(slug);
     return {
       metadata,
       slug,
       content,
-      imageMetadata
     };
-  }));
+  });
 }
 
-export async function getBlogPosts() {
+export function getBlogPosts() {
   return getMDXData(path.join(process.cwd(), 'content'));
 }
