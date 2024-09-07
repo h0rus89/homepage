@@ -37,6 +37,7 @@ export default function BlogPage() {
             </div>
           </Link>
         ))}
+        <Link href="/">Back to home</Link>
     </section>
   );
 }
