@@ -3,7 +3,7 @@ import type { Metadata } from 'next';
 import { GeistSans } from 'geist/font/sans';
 import { GeistMono } from 'geist/font/mono';
 import { Caveat } from 'next/font/google';
-import FamilyDrawer from '@/components/drawer/menu';
+// import FamilyDrawer from '@/components/drawer/menu';
 import { Analytics } from '@vercel/analytics/react';
 import { SpeedInsights } from '@vercel/speed-insights/next';
 
@@ -72,7 +72,7 @@ export default function RootLayout({
           )}
         />
         <main className="relative max-w-2xl mx-auto px-2 md:px-0 pt-24 pb-8">
-          <FamilyDrawer />
+          {/* <FamilyDrawer /> */}
           {children}
           
           <Analytics />
