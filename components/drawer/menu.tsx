@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 import { Drawer } from "vaul";
 import useMeasure from "react-use-measure";
 import { motion, AnimatePresence } from "framer-motion";
@@ -8,7 +8,7 @@ import { DefaultView, Gemeinsam, Aktiv, Stark } from "@/components/drawer/helper
 import { CloseIcon } from "@/components/drawer/icons";
 import { ArrowLeft, Home } from "lucide-react";
 import Link from "next/link";
-import { usePathname, useRouter } from 'next/navigation';
+import { usePathname } from 'next/navigation';
 import { Button } from "@/components/ui/button";
 
 interface ButtonProps {
@@ -55,7 +55,6 @@ const buttonVariants = {
 };
 
 export default function FamilyDrawer() {
-  const router = useRouter();
   const [isOpen, setIsOpen] = useState(false);
   const [view, setView] = useState("default");
   const [elementRef, bounds] = useMeasure();

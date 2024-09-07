@@ -1,26 +1,26 @@
 import Link from "next/link";
-import { FlipWords } from "@/components/ac/flip-words";
-import { BlogPostCard } from "@/components/BlogPostCard";
+// import { FlipWords } from "@/components/ac/flip-words";
+// import { BlogPostCard } from "@/components/BlogPostCard";
 import { Logo } from "@/components/logo";
-import { getBlogPosts } from "@/lib/blog";
-import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
+// import { getBlogPosts } from "@/lib/blog";
+// import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 
 export default function Page() {
-  {/*const words = ["gemeinsam", "aktiv", "stark"];
-  const colors = ["text-pink-500", "text-yellow-500", "text-lime-500"];
-  const latestPosts = getBlogPosts().sort((a, b) => {
-    if (
-      new Date(a.metadata.date) > new Date(b.metadata.date)
-    ) {
-      return -1;
-    }
-    return 1;
-  }).slice(0, 5).map(post => ({
-    id: post.slug,
-    title: post.metadata.title,
-    imageUrl: `/images/${post.slug}-1.jpg`,
-    ...post
-  })); */}
+  // const words = ["gemeinsam", "aktiv", "stark"];
+  // const colors = ["text-pink-500", "text-yellow-500", "text-lime-500"];
+  // const latestPosts = getBlogPosts().sort((a, b) => {
+    // if (
+    //   new Date(a.metadata.date) > new Date(b.metadata.date)
+    // ) {
+    //   return -1;
+    // }
+    // return 1;
+  // }).slice(0, 5).map(post => ({
+  //   id: post.slug,
+  //   title: post.metadata.title,
+  //   imageUrl: `/images/${post.slug}-1.jpg`,
+  //   ...post
+  // }));
 
   return (
     <section>
